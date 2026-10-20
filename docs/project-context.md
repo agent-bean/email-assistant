@@ -38,7 +38,7 @@ P0: urgent safety or critical blocker. P1: required for the current milestone. P
 - Product outcomes: parent issues labeled `outcome`; inspect sub-issue progress and integrated acceptance.
 - Backlog: open work for owner prioritization.
 - Delivery: execution work excluding aggregate outcomes and Done/Dropped items.
-- v0.1 readiness: milestone scope, including completed work.
+- Release readiness: issues grouped by Milestone across versions, including completed and closed work. Reuse this view for new milestones; no version-specific filter changes are needed.
 - Needs attention: open issues labeled `blocked`.
 
 The first milestone targets an internal end-to-end run with the owner's real email and calendar, with approval before sending. The owner still needs to define detailed scope and acceptance in product documents. Closed issue counts alone do not establish readiness. Close parent outcomes and the milestone only after integrated acceptance with evidence.
