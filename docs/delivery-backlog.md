@@ -1,6 +1,6 @@
 # Delivery backlog
 
-Status: Published as 7 outcome issues and 35 sub-issues in [Project 12](https://github.com/orgs/mr-bean-and-agents-squad/projects/12), targeting `v0.1-internal`. The accepted [product brief](product-brief.md) owns scope; GitHub issues own execution acceptance and current status.
+Status: Published as 7 outcome issues and 35 sub-issues in [Product Project](../README.md), targeting `v0.1-internal`. The accepted [product brief](product-brief.md) owns scope; GitHub issues own execution acceptance and current status.
 
 The codebase blueprint is the first technical task. Ready means scope, acceptance and dependencies are explicit; `blocked` prevents starting before prerequisites are accepted. The owner selects one execution task at a time.
 
