@@ -75,6 +75,7 @@ apps/
     src/email_assistant/
       api/              # HTTP, owner session, request validation
       domain/           # Versioned business entities and invariants
+      models/           # SQLAlchemy persistence models and constraints
       agents/           # Seven role contracts and role execution
       workflows/        # Email/meeting steps and durable transitions
       tools/            # Harness and capability allowlists
