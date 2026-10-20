@@ -1,0 +1,29 @@
+name: Work item
+description: Track a bounded outcome, discovery, task or bug.
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: What observable result should this work produce?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: State the boundary. For discovery, name the question to resolve.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance and verification
+      description: List observable checks. Discovery can deliver a decision or report; implementation needs behavior checks.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Sources and dependencies
+      description: Link accepted Markdown, parent issue, blockers and existing plan. Do not paste private email or credentials.
