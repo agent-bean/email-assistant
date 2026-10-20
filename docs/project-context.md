@@ -13,6 +13,8 @@ Use the [README](../README.md) for Project and milestone navigation. Resolve rep
 
 Repository Markdown holds accepted product scope, brainstorm conclusions and durable decisions. Issues hold bounded work, acceptance criteria and evidence links. Project fields hold status and priority. Plans hold implementation steps and execution progress. Link between these sources instead of duplicating their content.
 
+The [codebase blueprint](codebase-blueprint.md) owns accepted architecture and its verification boundary. Keep instance-specific model selections, endpoints, host specifications, credentials and raw probe results out of public documentation. Store private setup values in the owner-restricted, Git-ignored local `.env`, using the [configuration template](../.env.example) for key names. Host specifications are not application settings. Application configuration loading and deployment secret storage are not implemented yet.
+
 Save broad brainstorm results in Markdown before selecting work. An idea does not require an issue immediately. Create an `outcome` parent issue when the owner commits to tracking that outcome; use sub-issues for independently verifiable work. If more research is needed, use a `discovery` issue whose deliverable is a decision or report. Before planning, link the selected issue to its accepted source document. Do not turn all brainstorming notes into tasks automatically.
 
 The first technical task is the project blueprint and folder structure after the product brief is accepted. This configuration does not choose an application stack or generate product backlog.
