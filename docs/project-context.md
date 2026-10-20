@@ -41,7 +41,7 @@ P0: urgent safety or critical blocker. P1: required for the current milestone. P
 - Release readiness: issues grouped by Milestone across versions, including completed and closed work. Reuse this view for new milestones; no version-specific filter changes are needed.
 - Needs attention: open issues labeled `blocked`.
 
-The first milestone targets an internal end-to-end run with the owner's real email and calendar, with approval before sending. The owner still needs to define detailed scope and acceptance in product documents. Closed issue counts alone do not establish readiness. Close parent outcomes and the milestone only after integrated acceptance with evidence.
+The first milestone targets an internal end-to-end run with the owner's real email and calendar, with approval before sending. The accepted [product brief](product-brief.md) defines detailed scope and integrated acceptance; the [delivery backlog](delivery-backlog.md) maps it to bounded work. Closed issue counts alone do not establish readiness. Close parent outcomes and the milestone only after integrated acceptance with evidence.
 
 ## GitHub behavior
 
