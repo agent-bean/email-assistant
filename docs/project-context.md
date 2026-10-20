@@ -2,12 +2,10 @@
 
 ## Working agreement
 
-Owner: `biendo27`. The owner selects each task; agents refine, document, update GitHub and execute only selected work. Keep one execution task in progress. Aggregate outcomes do not count toward this limit.
+The owner selects each task; agents refine, document, update GitHub and execute only selected work. Keep one execution task in progress. Aggregate outcomes do not count toward this limit.
 
-- Repository: https://github.com/mr-bean-and-agents-squad/email-assistant
-- Project: https://github.com/orgs/mr-bean-and-agents-squad/projects/12
-- Project node ID: `PVT_kwDOFH-gLM4Bn1r2`
-- Default branch: `main`
+Use the [README](../README.md) for Project and milestone navigation. Resolve repository identity and the default branch from Git/GitHub when needed.
+
 - Release scope: native GitHub Milestone `v0.1-internal`, with no imposed date.
 - Implementation plans: `plans/{date}-{issue}-{slug}/plan.md`.
 
@@ -41,13 +39,13 @@ P0: urgent safety or critical blocker. P1: required for the current milestone. P
 - Release readiness: issues grouped by Milestone across versions, including completed and closed work. Reuse this view for new milestones; no version-specific filter changes are needed.
 - Needs attention: open issues labeled `blocked`.
 
-The first milestone targets an internal end-to-end run with the owner's real email and calendar, with approval before sending. The owner still needs to define detailed scope and acceptance in product documents. Closed issue counts alone do not establish readiness. Close parent outcomes and the milestone only after integrated acceptance with evidence.
+The first milestone targets an internal end-to-end run with the owner's real email and calendar, with approval before sending. The accepted [product brief](product-brief.md) defines detailed scope and integrated acceptance; the [delivery backlog](delivery-backlog.md) maps it to bounded work. Closed issue counts alone do not establish readiness. Close parent outcomes and the milestone only after integrated acceptance with evidence.
 
 ## GitHub behavior
 
 Open repository issues are automatically added to the Project. Sub-issues are automatically added; new Project items start in Backlog. Other status transitions are explicit. Merging a PR does not automatically prove acceptance or close its issue. Use `Closes #N` only when merge satisfies all acceptance; otherwise use `Refs #N`, move to Verify and close after verification.
 
-Changes to main require a PR, resolved review conversations and no force push or branch deletion. Required approvals are zero for the solo-owner workflow. CI checks will be added when the application stack and real checks exist.
+Changes to the default branch require a PR, resolved review conversations and no force push or branch deletion. Required approvals are zero for the solo-owner workflow. CI checks will be added when the application stack and real checks exist.
 
 ## Resume a session
 
