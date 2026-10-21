@@ -29,7 +29,7 @@ web:
 
 stores-up:
 	@test -n "$(ENV_FILE)" || { echo 'Set ENV_FILE to your private configuration path'; exit 1; }
-	$(COMPOSE) config --quiet
+	APP_ENV_FILE="$(ENV_FILE)" uv run --locked --project apps/backend python -m email_assistant.config $(COMPOSE)
 	$(COMPOSE) up -d --wait --wait-timeout 180
 
 stores-down:

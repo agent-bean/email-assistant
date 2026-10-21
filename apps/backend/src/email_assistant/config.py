@@ -1,9 +1,17 @@
+import json
 import os
+import subprocess
+import sys
 from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr, ValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+STORE_CONFIG_ERROR = (
+    "POSTGRES_PASSWORD, NEO4J_PASSWORD, QDRANT_API_KEY: "
+    "set nonempty private credentials; see configuration template"
+)
 
 
 class Settings(BaseSettings):
@@ -44,7 +52,30 @@ def load_store_settings() -> StoreSettings:
     try:
         return StoreSettings(_env_file=source)
     except (ValidationError, OSError, UnicodeError):
-        raise ValueError(
-            "POSTGRES_PASSWORD, NEO4J_PASSWORD, QDRANT_API_KEY: "
-            "set nonempty private credentials; see configuration template"
-        ) from None
+        raise ValueError(STORE_CONFIG_ERROR) from None
+
+
+def validate_store_compose(command: list[str]) -> None:
+    """Validate the credentials Compose will give services, without exposing its output."""
+    private_source()
+    try:
+        result = subprocess.run(
+            [*command, "config", "--format", "json"],
+            check=True, capture_output=True, text=True, timeout=30,
+        )
+        services = json.loads(result.stdout)["services"]
+        StoreSettings(
+            _env_file=None,
+            postgres_password=services["postgres"]["environment"]["POSTGRES_PASSWORD"],
+            neo4j_password=services["neo4j"]["environment"]["NEO4J_AUTH"][len("neo4j/"):],
+            qdrant_api_key=services["qdrant"]["environment"]["QDRANT__SERVICE__API_KEY"],
+        )
+    except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError):
+        raise ValueError(STORE_CONFIG_ERROR) from None
+
+
+if __name__ == "__main__":
+    try:
+        validate_store_compose(sys.argv[1:])
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from None

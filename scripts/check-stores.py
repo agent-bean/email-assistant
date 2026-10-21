@@ -13,18 +13,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def ports_available(ports: tuple[int, ...]) -> bool:
+    for port in ports:
+        with socket.socket() as probe:
+            probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                probe.bind(("127.0.0.1", port))
+            except OSError:
+                print(f"Port {port} occupied; identify its owner and stop local dev stores first.")
+                return False
+    return True
+
+
 def main() -> int:
     def terminate(signum, frame):
         raise SystemExit(128 + signum)
 
     signal.signal(signal.SIGTERM, terminate)
-    for port in (5432, 7687, 6333):
-        with socket.socket() as probe:
-            try:
-                probe.bind(("127.0.0.1", port))
-            except OSError:
-                print(f"Port {port} occupied; identify its owner and stop local dev stores first.")
-                return 1
+    if not ports_available((5432, 7687, 6333)):
+        return 1
     project = "email-assistant-test-" + secrets.token_hex(6)
     env = {
         k: v

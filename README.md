@@ -48,7 +48,7 @@ with os.fdopen(fd, 'w') as stream:
 PY
 ```
 
-Provider keys stay optional/blank. Active store keys: `POSTGRES_PASSWORD`, `NEO4J_PASSWORD` (16+ characters) and `QDRANT_API_KEY` (32+). Use generated independent secrets without whitespace. `APP_ENVIRONMENT` defaults to `local`; other values fail with a sanitized remedy. Backend private files require owner-only permissions (for example `chmod 600`) and are opt-in through absolute `APP_ENV_FILE`; environment variables override file values. No automatic dotenv discovery or shell-sourcing. Never put secrets in `VITE_*`, Git, logs, shell arguments or browser code.
+Provider keys stay optional/blank. Active store keys: `POSTGRES_PASSWORD`, `NEO4J_PASSWORD` (16+ characters) and `QDRANT_API_KEY` (32+). Use generated independent secrets without whitespace. `APP_ENVIRONMENT` defaults to `local`; other values fail with a sanitized remedy. Backend private files require owner-only permissions (for example `chmod 600`) and are opt-in through `APP_ENV_FILE`; environment variables override file values. No automatic dotenv discovery or shell-sourcing. Never put secrets in `VITE_*`, Git, logs, shell arguments or browser code.
 
 From the repository root:
 
@@ -56,7 +56,7 @@ From the repository root:
 make stores-up ENV_FILE=.env.local
 ```
 
-Missing credentials fail before startup. Do not print resolved Compose config. Local stores share a private user-defined bridge and publish only required ports to `127.0.0.1`. Docker `internal: true` suppressed published ports on the tested engine; host-native clients need this bridge route. No admin/browser/gRPC ports publish. This local network allows egress; deployment owns production internal networking and secret mounts. Bounded Compose healthchecks establish startup, while protected client operations verify authentication separately.
+`make stores-up` checks owner-only file permissions and validates credential lengths against Compose's resolved service values before startup. Missing or short credentials and invalid Compose configuration fail with sanitized errors; Compose interpolation and environment precedence apply. Do not print resolved Compose config. Local stores share a private user-defined bridge and publish only required ports to `127.0.0.1`. Docker `internal: true` suppressed published ports on the tested engine; host-native clients need this bridge route. No admin/browser/gRPC ports publish. This local network allows egress; deployment owns production internal networking and secret mounts. Bounded Compose healthchecks establish startup, while protected client operations verify authentication separately.
 
 Stop stores without deleting their independent named data volumes:
 
