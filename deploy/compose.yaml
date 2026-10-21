@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:17.6@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929
+    environment:
+      POSTGRES_USER: email_assistant
+      POSTGRES_DB: email_assistant
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in private config}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    networks: [stores]
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U email_assistant -d email_assistant"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 10s
+  neo4j:
+    image: neo4j:5.26.12-community@sha256:9f75e8df4325a24f00fdd7a8c0bcce650a58375049b1058e496e8b43d6c36b37
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in private config}
+      NEO4J_server_memory_heap_initial__size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 128m
+      NEO4J_server_http_enabled: "false"
+      NEO4J_server_https_enabled: "false"
+    ports: ["127.0.0.1:7687:7687"]
+    volumes: ["neo4j-data:/data"]
+    networks: [stores]
+    mem_limit: 1536m
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/7687'"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 20s
+  qdrant:
+    image: qdrant/qdrant:v1.15.4@sha256:6ac4807063bbecddca0250bfbcff52acf18c22263b904d12919349e6d0a408f1
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:?Set QDRANT_API_KEY in private config}
+      QDRANT__TELEMETRY_DISABLED: "true"
+    ports: ["127.0.0.1:6333:6333"]
+    volumes: ["qdrant-data:/qdrant/storage"]
+    networks: [stores]
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/6333'"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 10s
+networks:
+  stores:
+    # Local host-native clients need published loopback ports. Production is downstream.
+    driver: bridge
+volumes:
+  postgres-data:
+  neo4j-data:
+  qdrant-data:

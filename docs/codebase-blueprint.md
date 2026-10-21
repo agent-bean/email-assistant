@@ -23,7 +23,7 @@ Acceptance: owner accepts this blueprint; provider capability evidence resolves 
 | OCR | Configured vision model through the LLM provider adapter | Owner-selected direction; document-quality evaluation required |
 | Embeddings | Free OpenRouter embedding route | Owner-selected direction; model quality, dimensions and account limits require verification |
 
-Runtime endpoint/model selections and credentials belong in private configuration, not this blueprint. Host specifications and live probe history are not application settings and are omitted. The [configuration template](../.env.example) defines the current setup keys; private values live in the Git-ignored, owner-readable local `.env`. Application configuration loading is not implemented yet. Text and OCR share the configured model; no separate vision-model setting is required.
+Runtime endpoint/model selections and credentials belong in private configuration, not this blueprint. Host specifications and live probe history are not application settings and are omitted. The [configuration template](../.env.example) defines the current setup keys; private values live in the Git-ignored, owner-readable local `.env`. Local configuration loading is implemented through an explicitly selected private file; see [setup and checks](../README.md). Text and OCR share the configured model; no separate vision-model setting is required.
 
 ## Options and trade-offs
 

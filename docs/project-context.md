@@ -13,7 +13,7 @@ Use the [README](../README.md) for Project and milestone navigation. Resolve rep
 
 Repository Markdown holds accepted product scope, brainstorm conclusions and durable decisions. Issues hold bounded work, acceptance criteria and evidence links. Project fields hold status and priority. Plans hold implementation steps and execution progress. Link between these sources instead of duplicating their content.
 
-The [codebase blueprint](codebase-blueprint.md) owns accepted architecture and its verification boundary. Keep instance-specific model selections, endpoints, host specifications, credentials and raw probe results out of public documentation. Store private setup values in the owner-restricted, Git-ignored local `.env`, using the [configuration template](../.env.example) for key names. Host specifications are not application settings. Application configuration loading and deployment secret storage are not implemented yet.
+The [codebase blueprint](codebase-blueprint.md) owns accepted architecture and its verification boundary. Keep instance-specific model selections, endpoints, host specifications, credentials and raw probe results out of public documentation. Store private setup values in the owner-restricted, Git-ignored local `.env`, using the [configuration template](../.env.example) for key names. Host specifications are not application settings. Local configuration loading is implemented; see [setup and checks](../README.md) for the explicit private file route. Deployment secret storage remains downstream.
 
 Save broad brainstorm results in Markdown before selecting work. An idea does not require an issue immediately. Create an `outcome` parent issue when the owner commits to tracking that outcome; use sub-issues for independently verifiable work. If more research is needed, use a `discovery` issue whose deliverable is a decision or report. Before planning, link the selected issue to its accepted source document. Do not turn all brainstorming notes into tasks automatically.
 
@@ -47,7 +47,7 @@ The first milestone targets an internal end-to-end run with the owner's real ema
 
 Open repository issues are automatically added to the Project. Sub-issues are automatically added; new Project items start in Backlog. Other status transitions are explicit. Merging a PR does not automatically prove acceptance or close its issue. Use `Closes #N` only when merge satisfies all acceptance; otherwise use `Refs #N`, move to Verify and close after verification.
 
-Changes to the default branch require a PR, resolved review conversations and no force push or branch deletion. Required approvals are zero for the solo-owner workflow. CI checks will be added when the application stack and real checks exist.
+Changes to the default branch require a PR, resolved review conversations and no force push or branch deletion. Required approvals are zero for the solo-owner workflow. The [CI workflow](../.github/workflows/ci.yml) runs application, contract, browser and isolated store checks. A workflow file alone does not prove a passing remote run.
 
 ## Resume a session
 
