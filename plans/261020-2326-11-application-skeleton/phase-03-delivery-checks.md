@@ -49,10 +49,10 @@ Future backend commands from `apps/backend`: `uv sync --locked`, `uv run ruff ch
 
 - [x] Local/browser/store checks pass with evidence.
 - [x] Clean checkout reproduces README without provider secrets.
-- [ ] CI executes every check; remote result pending until observed.
+- [x] CI executes every check; push and pull-request runs passed for `b6674fa`.
 - [x] Docs/links correct; no private tracked artifacts; owned processes stopped.
 
-Execution: [report](../reports/cook-261020-2340-application-skeleton.md) records clean-checkout `make check`, negative checks and cleanup. Final test locations are backend `tests/unit/`, backend `tests/integration/` and web `tests/e2e/`; markers are `unit` and `integration`. Root Makefile owns executable commands. Remote CI remains pending.
+Execution: [report](../reports/cook-261020-2340-application-skeleton.md) records clean-checkout `make check`, negative checks and cleanup. Final test locations are backend `tests/unit/`, backend `tests/integration/` and web `tests/e2e/`; markers are `unit` and `integration`. Root Makefile owns executable commands. [PR #46 CI](https://github.com/mr-bean-and-agents-squad/email-assistant/actions/runs/39552432643) passed application and real-store jobs; [plan evidence](plan.md#execution-evidence) links both hosted runs.
 
 ## Success Criteria
 

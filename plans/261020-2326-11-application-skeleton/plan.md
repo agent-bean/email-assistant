@@ -1,7 +1,7 @@
 ---
 title: "Issue 11: Application skeleton"
 description: "Start a real API and web shell with private local stores and reproducible checks."
-status: in-progress
+status: completed
 priority: P1
 effort: 14h
 issue: 11
@@ -44,14 +44,16 @@ Phases execute sequentially; file ownership transfers only after predecessor fin
 - [x] Fresh checkout installs locked dependencies and starts API/web using example variables without provider secrets.
 - [x] Real `/health` liveness and accessible shell states pass API/browser checks.
 - [x] Three authenticated stores pass connectivity and restart persistence smoke checks without business schemas.
-- [ ] CI executes actual lint, type, schema/client drift, build, backend, browser and store checks.
+- [x] CI executes actual lint, type, schema/client drift, build, backend, browser and store checks.
 - [x] Public evidence sanitized; owned processes stopped; existing volumes intact.
 
 ## Execution evidence
 
-Local implementation and clean-checkout `make check` passed: 7 unit, 3 integration and 1 E2E test, plus lint/type/contract/build. Root Make targets and scope directories supersede proposed commands below. See [execution report](../reports/cook-261020-2340-application-skeleton.md). Phase checklists own progress; initial table/frontmatter labels are not derived status. Remote CI remains unobserved, so plan stays in progress. Owner authorized local commits and selected `ubuntu-latest` for GitHub-managed runner upgrades. No push or GitHub mutation performed.
+Local implementation and clean-checkout `make check` passed: 7 unit, 3 integration and 1 E2E test, plus lint/type/contract/build. Root Make targets and scope directories supersede proposed commands below. See [execution report](../reports/cook-261020-2340-application-skeleton.md). Phase checklists own progress; initial table/frontmatter labels are not derived status. At that implementation checkpoint, remote CI remained unobserved and no push or GitHub mutation had occurred. Owner authorized local commits and selected `ubuntu-latest` for GitHub-managed runner upgrades.
 
-Follow-up review fixes verified port-reuse, bypassed startup validation and dotenv/Compose interpolation mismatch before repair. Added 16 focused regression cases; final `make check` passed all 23 unit, 3 integration and 1 E2E tests plus lint/type/contract/build. Earlier consecutive store runs also verified immediate port reuse after cleanup. Final pending review included untracked files and found no remaining verified in-scope issue. Existing volumes and provider boundaries were preserved during those fix checks. See the [fix journal](../journals/2026-10-21-fix-store-startup-preflight-and-port-reuse.md). Shipping includes these fixes; remote CI acceptance remains pending. The [ship preflight journal](../journals/2026-10-21-prepare-application-skeleton-for-publication.md) records independent verification and the later pre-test Docker-volume baseline.
+Follow-up review fixes verified port-reuse, bypassed startup validation and dotenv/Compose interpolation mismatch before repair. Added 16 focused regression cases; final `make check` passed all 23 unit, 3 integration and 1 E2E tests plus lint/type/contract/build. Earlier consecutive store runs also verified immediate port reuse after cleanup. Final pending review included untracked files and found no remaining verified in-scope issue. Existing volumes and provider boundaries were preserved during those fix checks. See the [fix journal](../journals/2026-10-21-fix-store-startup-preflight-and-port-reuse.md). Shipping includes these fixes. The [ship preflight journal](../journals/2026-10-21-prepare-application-skeleton-for-publication.md) records independent verification and the later pre-test Docker-volume baseline.
+
+Authorized ship created [PR #46](https://github.com/mr-bean-and-agents-squad/email-assistant/pull/46) against `main`. Both [push CI](https://github.com/mr-bean-and-agents-squad/email-assistant/actions/runs/39552346224) and [pull-request CI](https://github.com/mr-bean-and-agents-squad/email-assistant/actions/runs/39552432643) passed application and integration jobs for `b6674fa`. Hosted checks covered locked installs, lint/type/contract/build, unit tests, Chromium E2E and real stores. All plan acceptance criteria now have evidence; PR remains open and unmerged. This does not complete #10 or its downstream provider gates.
 
 ## Decisions and validation
 
@@ -63,6 +65,6 @@ Validation: 30 source claims checked, zero failed/unresolved. All four plan file
 
 ## Unresolved questions
 
-No stack/product decisions remain. Dependency reconciliation, local compatibility and ports verified. Remaining acceptance gap: observe actual remote CI after authorized publication.
+No unresolved skeleton decisions or acceptance gaps remain. PR review and merge remain owner actions; providers and deployment stay downstream.
 
 <!-- slug: 261020-2326-11-application-skeleton -->
