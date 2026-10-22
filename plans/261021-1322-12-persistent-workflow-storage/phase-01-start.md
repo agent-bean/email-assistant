@@ -54,14 +54,16 @@ Paths below are relative to repository root; create only these boundaries, adapt
 
 Existing commands: `make test-unit`, `make test-integration`, `make lint typecheck api-check`. Add narrow real-database cases to existing marked suite; invoke through its disposable harness, never pytest directly against development stores. Focus first on `test_schema.py` through a runner filter added without weakening whole-suite default.
 
-- [ ] Empty schema upgrades to one head; repeat upgrade produces no changes; model metadata matches migration.
-- [ ] Duplicate provider subjects, root run keys and retry submission/predecessor keys, company identifiers within one company, company/contact pairs and action logical keys fail in PostgreSQL.
-- [ ] Shared company domain, same display name and distinct account-scoped addresses remain representable.
-- [ ] A genuine retry of unchanged logical input succeeds as a new generation; concurrent duplicate retries yield one successor. Equal-content records and A/B/A revisions remain valid.
-- [ ] Invalid FK/cross-account/revision references fail; secret values never appear in exceptions/log assertions.
-- [ ] Missing/invalid DB config fails only DB commands, while `/health` remains usable.
+- [x] Empty schema upgrades to one head; repeat upgrade produces no changes; model metadata matches migration.
+- [x] Duplicate provider subjects, root run keys and retry submission/predecessor keys, company identifiers within one company, company/contact pairs and action logical keys fail in PostgreSQL.
+- [x] Shared company domain, same display name and distinct account-scoped addresses remain representable.
+- [x] A genuine retry of unchanged logical input succeeds as a new generation; concurrent duplicate retries yield one successor. Equal-content records and A/B/A revisions remain valid.
+- [x] Invalid FK/cross-account/revision references fail; secret values never appear in exceptions/log assertions.
+- [x] Missing/invalid DB config fails only DB commands, while `/health` remains usable.
 
 ## Risks, security and abort
+
+Execution evidence (2026-10-22): the focused schema suite passed all 10 tests on disposable PostgreSQL 17. It verifies migration/metadata agreement, repeat upgrade, runtime DDL denial, duplicate identities, one active Gmail connection with retained disconnected history, account boundaries, canonical SQL guards and sanitized parameter errors. The unit suite also verifies independent DB configuration and DB-free health.
 
 Review exact DB role grants in phase 2. The current Compose owner role is administrative; application-only validation cannot defend arbitrary direct superuser writes. Avoid claiming that threat model. No real account data is needed. Stop on schema drift, backup failure, an occupied foreign port or missing disposable ownership. After failed migration, keep backups and report revision; do not delete owner volumes or attempt an unreviewed downgrade. Next: phase 2 after schema checks pass.
 

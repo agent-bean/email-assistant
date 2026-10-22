@@ -51,12 +51,16 @@ The helper covers local migration safety only. Reserve `scripts/backup.sh` and `
 | Backup before migrations; tested restore protects data | Pre-upgrade manifest, matched DB/file snapshot, empty isolated restore comparison and source-preservation/failure tests |
 | Blueprint storage refinement | Atomic canonical outbox and independent target checkpoint tests, tombstones, provenance and cached-vector metadata tests |
 
-- [ ] Focused suites and full required checks pass without secret leakage or owner-data mutation.
-- [ ] Restore recovers states, revision relationships and exact artifact bytes; pending/unknown states remain safe.
-- [ ] Local operational route documented and verified; production R2/decryption/projection rebuild remain explicitly unverified.
-- [ ] Evidence maps to all #12 acceptance criteria; owner review still owns issue acceptance.
+- [x] Focused suites and full required checks pass without secret leakage or owner-data mutation.
+- [x] Restore recovers states, revision relationships and exact artifact bytes; pending/unknown states remain safe.
+- [x] Local operational route documented and verified; production R2/decryption/projection rebuild remain explicitly unverified.
+- [x] Evidence maps to all #12 acceptance criteria; owner review still owns issue acceptance.
 
 ## Risks, rollback and abort
+
+Execution evidence (2026-10-22): final `make check` passed lint, typecheck, API drift, build, 30 unit tests, 32 integration tests and 1 real-browser E2E test. Six recovery tests verified actual container restart/fresh-process reads, named record types, exact DB/file restore, different target timezone, runtime read/write and DDL denial after restore, explicit new-role provisioning and refusal/failure paths. A full earlier gate with conflicting inherited storage/PG/test selectors left a synthetic owner sentinel unchanged. All owned test services/volumes and E2E servers were cleaned up.
+
+Independent review findings were repaired and the follow-up review returned no remaining finding in scope. The local operator route is documented in the README and Make help. The controller checkout retains the sanitized report at `plans/reports/cook-261022-issue-12-persistent-storage.md`; shipping must copy it deliberately if needed on this branch. No commit, push, PR or issue update was performed. Hosted CI, owner acceptance, production recovery, token decryption and actual projection rebuild remain pending.
 
 Backups may contain future private business data: use owner-only local storage, exclude them from Git and clean owned disposable copies only. Abort migration on backup/exclusion failure; retain pre-upgrade snapshot and failure status. Additive changes permit old-process compatibility only if tested; do not promise universal downgrade. For bad migrations stop writers, preserve failed source and restore verified pre-upgrade snapshot into a fresh target, then explicitly switch local configuration after checks. A later forward repair is safer than an untested destructive downgrade. Never reset shared volumes, broaden exposure or skip a selected store to get green tests.
 

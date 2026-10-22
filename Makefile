@@ -12,6 +12,7 @@ help:
 	@echo 'Check: lint | typecheck | build | api-check | check'
 	@echo 'Tests: test-unit | test-integration | test-e2e | test (all scopes)'
 	@echo 'Contract update: api-generate'
+	@echo 'Storage: storage-backup | storage-migrate | storage-restore (private ENV_FILE)'
 
 install: install-backend install-web
 
@@ -65,3 +66,16 @@ test-e2e:
 test: test-unit test-integration test-e2e
 
 check: lint typecheck api-check build test
+
+.PHONY: storage-backup storage-migrate storage-restore
+storage-backup:
+	@test -n "$(ENV_FILE)" -a -n "$(STAGING)" || { echo 'Set ENV_FILE and new private STAGING'; exit 1; }
+	uv run --locked --project apps/backend python scripts/storage-snapshot.py backup --config "$(ENV_FILE)" --staging "$(STAGING)"
+
+storage-migrate:
+	@test -n "$(ENV_FILE)" -a -n "$(STAGING)" || { echo 'Set ENV_FILE and new private STAGING'; exit 1; }
+	uv run --locked --project apps/backend python scripts/storage-snapshot.py migrate --config "$(ENV_FILE)" --staging "$(STAGING)" $(if $(filter 1,$(PROVISION_RUNTIME)),--provision-runtime,)
+
+storage-restore:
+	@test -n "$(ENV_FILE)" -a -n "$(SNAPSHOT)" || { echo 'Set isolated target ENV_FILE and source SNAPSHOT'; exit 1; }
+	uv run --locked --project apps/backend python scripts/storage-snapshot.py restore --config "$(ENV_FILE)" --snapshot "$(SNAPSHOT)" --isolated $(if $(filter 1,$(PROVISION_RUNTIME)),--provision-runtime,)

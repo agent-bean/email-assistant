@@ -1,11 +1,11 @@
 ---
 title: "Persistent workflow and company storage"
 description: "Add canonical PostgreSQL storage, guarded transitions and a verified local restore route for issue 12."
-status: pending
+status: completed
 priority: P1
 effort: 4-6d
 issue: 12
-branch: plan/issue-12-persistent-storage
+branch: feat/issue-12-persistent-storage
 tags: [backend, database, feature]
 blockedBy: []
 blocks: []
@@ -28,17 +28,19 @@ Acceptance: named record types survive restart; database constraints prevent dup
 
 - Baseline: `d43df7fffe8324879096153974e52783bedc01dd` on `main`, PR [#46](https://github.com/mr-bean-and-agents-squad/email-assistant/pull/46) merged; #11 closed with clean-start and application/integration CI evidence. Recheck before implementation.
 - [Working agreement](../../docs/project-context.md), [product brief](../../docs/product-brief.md), [backlog](../../docs/delivery-backlog.md).
-- [Prior skeleton evidence](../reports/cook-261020-2340-application-skeleton.md). Runtime persistence contracts below are proposed work, not current functionality.
+- [Prior skeleton evidence](../reports/cook-261020-2340-application-skeleton.md) describes the pre-storage baseline. Current implementation evidence is recorded in the phase files.
 - #17 explicitly allows distinct companies sharing a domain. #19 owns authenticated approval; #20 owns dispatch/reconciliation; #42 owns production recovery.
 
 ## Phases
 
-| # | Phase | Status |
+| # | Phase | Dependencies |
 |---|-------|--------|
-| 1 | [Schema and migration foundation](./phase-01-start.md) | Pending |
-| 2 | [Transactional workflow state](./phase-02-transactional-state.md) | Pending; depends on 1 |
-| 3 | [Canonical projection and artifact storage](./phase-03-projection-storage.md) | Pending; depends on 2 |
-| 4 | [Recovery and delivery evidence](./phase-04-recovery-and-delivery.md) | Pending; depends on 3 |
+| 1 | [Schema and migration foundation](./phase-01-start.md) | None |
+| 2 | [Transactional workflow state](./phase-02-transactional-state.md) | 1 |
+| 3 | [Canonical projection and artifact storage](./phase-03-projection-storage.md) | 2 |
+| 4 | [Recovery and delivery evidence](./phase-04-recovery-and-delivery.md) | 3 |
+
+Phase checkboxes own completion state; `ak plan status` summarizes their current progress.
 
 Execution is sequential: migration history, persistence helpers, Makefile and integration runner have one owner at a time. Root paths in phase inventories are repository-relative so this plan survives worktree relocation.
 
@@ -61,8 +63,8 @@ Three independent lenses completed; 7 raw findings deduplicated to 5 (2 High, 3 
 - [Offline HTML reader](./plan.html): user-facing overview after final gates. Markdown phases remain execution authority.
 - AgentWiki: skipped; `agentwiki` is absent and no equivalent AgentWiki MCP tools are exposed. No public fallback.
 - Runtime task hydration: durable phase checkboxes; no separate task-management tool is exposed.
-- Next: plan audit after branch push. Validation and red-team passed; cooking still requires downstream audit and owner task selection.
+- Implementation branch: `feat/issue-12-persistent-storage`. Independent code review and scoped simplification ran; phase files record execution checks. Commit, publication and owner acceptance remain separate gates.
 
 ## Unresolved questions
 
-None after critical-question validation. Red-team fixes applied and source verification passed. No implementation has started.
+No unresolved product questions. Implementation preserves the accepted scope; provider execution, authenticated approval and production recovery remain downstream.

@@ -46,14 +46,16 @@ Duplicate content hashes need not imply one shared physical file: preserve per-a
 
 Use real PostgreSQL through `make test-integration`; keep original real Neo4j/Qdrant authentication/restart tests intact. Provider keys remain blank.
 
-- [ ] Canonical mutation failure yields no outbox event; successful mutation yields one event, even for repeated submissions.
-- [ ] Neo4j and Qdrant delivery rows remain independent; out-of-order/stale updates and stale delete acknowledgments cannot advance current state incorrectly.
-- [ ] Deletion/revision/index-generation references survive restart and are enough for downstream rebuild contracts; this does not prove an actual rebuild.
-- [ ] Absolute, traversal and symlink paths are refused; altered/truncated artifact bytes fail checksum verification.
-- [ ] Crash before/after file write leaves detectable pending metadata or unreferenced opaque file; never a ready reference to missing bytes.
-- [ ] Approved-retained artifacts and temporary artifacts remain distinct; approval/action history is preserved.
+- [x] Canonical mutation failure yields no outbox event; successful mutation yields one event, even for repeated submissions.
+- [x] Neo4j and Qdrant delivery rows remain independent; out-of-order/stale updates and stale delete acknowledgments cannot advance current state incorrectly.
+- [x] Deletion/revision/index-generation references survive restart and are enough for downstream rebuild contracts; this does not prove an actual rebuild.
+- [x] Absolute, traversal and symlink paths are refused; altered/truncated artifact bytes fail checksum verification.
+- [x] Crash before/after file write leaves detectable pending metadata or unreferenced opaque file; never a ready reference to missing bytes.
+- [x] Approved-retained artifacts and temporary artifacts remain distinct; approval/action history is preserved.
 
 ## Risks, security and rollback
+
+Execution evidence (2026-10-22): 3 projection tests and 2 artifact tests passed, plus filesystem unit checks. They verify atomic revision/outbox commits, independent targets, stale/tombstone guards, provenance/model references, retained/temporary separation and interrupted file publication. Review exposed an applied-delivery SQL bypass; its regression failed before the deferred checkpoint guard and passed afterward. Recovery tests compare persisted projection metadata after restart/restore. No projector, embedding generation or retrieval quality is claimed.
 
 Filesystem and PostgreSQL are not one transaction. Test each crash point and keep readiness explicit. Do not pretend projection metadata tests prove actual Neo4j/Qdrant writes, semantic retrieval or cross-store deletion; #17/#18/#21/#25/#33 and #40-42 own those integrations. Back up before migrations and abort on incompatible history. Next: phase 4 verifies matched snapshot/restore.
 

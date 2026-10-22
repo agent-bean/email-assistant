@@ -2,7 +2,14 @@
 name = "email-assistant"
 version = "0.1.0"
 requires-python = ">=3.13,<3.14"
-dependencies = ["fastapi==0.154.0", "pydantic-settings>=2.10,<3", "uvicorn==0.54.0"]
+dependencies = [
+    "alembic>=1.16,<2",
+    "fastapi==0.154.0",
+    "psycopg[binary]==3.3.6",
+    "pydantic-settings>=2.10,<3",
+    "sqlalchemy>=2.0,<2.1",
+    "uvicorn==0.54.0",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -10,7 +17,9 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = ["pytest==9.1.1", "httpx>=0.28,<1", "ruff==0.17.1", "mypy==2.4.0"]
-integration = ["psycopg[binary]==3.3.6", "neo4j==6.4.1"]
+integration = [
+ "neo4j==6.4.1",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -25,6 +34,9 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["email_assistant"]
 
 [tool.mypy]
 strict = true

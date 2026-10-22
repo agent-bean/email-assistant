@@ -63,14 +63,16 @@ Claim/attempt creation uses a short transaction and monotonic fence/version. Uni
 
 Focused unit: `cd apps/backend && uv run --locked pytest -m unit tests/unit/test_states.py` (future file). Integration runs through `make test-integration`, including selected-file filtering introduced in phase 1.
 
-- [ ] Enumerated invalid edges fail via persistence and raw SQL using runtime role; no-op duplicate submissions are idempotent, not duplicate approvals/attempts.
-- [ ] Two claims yield exactly one current claim and one attempt; stale versions/fences cannot change results.
-- [ ] Edit/rejection preserves history and invalidates executable authorization; kind/destination/attachment mismatch fails.
-- [ ] Expired claimed send becomes unknown and cannot return to approved/claimed without explicit resolution; restart does not clear it.
-- [ ] Terminal run retries preserve original logical input and history, increment execution generation and deduplicate concurrent retry submissions; saved completed steps survive fresh connections.
-- [ ] Multirow failure rolls back decision, action, attempt and audit writes together.
+- [x] Enumerated invalid edges fail via persistence and raw SQL using runtime role; no-op duplicate submissions are idempotent, not duplicate approvals/attempts.
+- [x] Two claims yield exactly one current claim and one attempt; stale versions/fences cannot change results.
+- [x] Edit/rejection preserves history and invalidates executable authorization; kind/destination/attachment mismatch fails.
+- [x] Expired claimed send becomes unknown and cannot return to approved/claimed without explicit resolution; restart does not clear it.
+- [x] Terminal run retries preserve original logical input and history, increment execution generation and deduplicate concurrent retry submissions; saved completed steps survive fresh connections.
+- [x] Multirow failure rolls back decision, action, attempt and audit writes together.
 
 ## Risks, security and rollback
+
+Execution evidence (2026-10-22): all 8 workflow tests passed on disposable PostgreSQL. They cover the rejected-edge matrix, synchronized claim/edit/decision/retry races, immutable A/B/A history, exact snapshot mismatch rejection, fencing, expiry/unknown safety, durable completed steps and atomic rollback.
 
 No provider calls, auth acceptance or exactly-once external delivery claim. Trigger changes require backup before migration. Avoid deadlocks through fixed lock order; surface bounded lock conflicts without automatic mutation replay. On a failed invariant, stop and retain sanitized evidence; restore to a fresh isolated target rather than dropping history. Next: phase 3.
 

@@ -2,8 +2,8 @@
 :root{--paper:#faf7f2;--panel:#f0ebe1;--ink:#0a0a0a;--muted:#6b6258;--accent:#b8232c;--line:#c8c0b3;--s1:.5rem;--s2:1rem;--s3:1.5rem;--s4:2rem;--s5:3rem;--s6:5rem;--control:2.75rem;--border:1px;--radius:.5rem;--max:76rem;--body:1rem;--small:.85rem;--title:clamp(2.5rem,6vw,5.2rem);--section:2rem;--phase:1.6rem;--display:Georgia,serif;--sans:system-ui,sans-serif;--mono:ui-monospace,monospace}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:var(--body)/1.65 var(--sans)}main{max-width:var(--max);margin:auto;padding:var(--s4)}h1,h2,h3{font-family:var(--display);line-height:1.1;font-weight:500;letter-spacing:-.025em}h1{font-size:var(--title);max-width:16ch;margin:var(--s4) 0}h2{font-size:var(--section);margin:0 0 var(--s3)}h3{font-size:var(--phase);margin:0}p{max-width:70ch}a{color:var(--accent);text-underline-offset:.2em;overflow-wrap:anywhere}button,summary{font:inherit;cursor:pointer}button,a.control{min-height:var(--control);padding:var(--s1) var(--s2);border:var(--border) solid var(--ink);background:transparent;color:var(--ink);border-radius:var(--radius)}button:hover{background:var(--panel)}button:active{background:var(--line)}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}header.hero{padding:var(--s4) 0 var(--s5);border-bottom:var(--border) solid var(--ink)}.eyebrow,.meta,.phase-label,.paths{font:var(--small)/1.6 var(--mono);color:var(--muted)}.eyebrow{letter-spacing:.08em;text-transform:uppercase}.intro{font-size:1.2rem;max-width:55ch}.meta{display:flex;flex-wrap:wrap;gap:var(--s2)}.state{color:var(--accent)}nav{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4)}nav a{display:inline-flex;align-items:center;min-height:var(--control);padding:var(--s1) var(--s2);border:var(--border) solid var(--line);border-radius:var(--radius);color:var(--ink);text-decoration:none}section{padding-block:var(--s5);border-bottom:var(--border) solid var(--line)}.scope{display:grid;grid-template-columns:2fr 1fr;gap:var(--s5)}.scope aside{border-left:var(--border) solid var(--line);padding-left:var(--s4)}.scope ul{padding-left:var(--s3)}.phase{display:grid;grid-template-columns:8rem 1fr;gap:var(--s4);padding:var(--s4) 0;border-top:var(--border) solid var(--line)}.phase-label{display:flex;flex-direction:column;gap:var(--s2)}.number{font:2.5rem/1 var(--display);color:var(--accent)}.phase li{padding-block:.15rem}.paths{overflow-wrap:anywhere}.phase button{margin-top:var(--s1)}.decisions{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}.decisions h3{font-size:1.3rem}.diagram{min-width:0;max-width:100%}.ak-diagram-root{max-width:100%;overflow:auto}.ak-diagram-root button.ak-diagram-btn,.ak-diagram-root input,.ak-diagram-root select{min-height:var(--control);min-width:var(--control)}.ak-diagram-root a{display:inline-flex;align-items:center;min-height:var(--control);min-width:var(--control)}dialog{width:min(64rem,calc(100% - var(--s4)));max-height:90dvh;padding:var(--s4);background:var(--paper);color:var(--ink);border:var(--border) solid var(--ink);border-radius:var(--radius)}dialog::backdrop{background:#0a0a0a99}.dialog-header{display:flex;gap:var(--s3);align-items:flex-start;justify-content:space-between;position:sticky;top:calc(-1 * var(--s4));background:var(--paper);padding-block:var(--s2);z-index:1}.dialog-header h2{font-size:var(--phase)}.prose{overflow-wrap:anywhere}.prose h1{font-size:var(--section)}.prose h2{margin-top:var(--s4);font-size:var(--phase)}.prose h3{font-size:1.2rem}.prose table{display:block;max-width:100%;overflow:auto;border-collapse:collapse}.prose th,.prose td{padding:var(--s1);border:var(--border) solid var(--line);text-align:left;vertical-align:top}.prose pre{overflow:auto;background:var(--panel);padding:var(--s2)}.prose code{font-family:var(--mono);font-size:var(--small)}.prose input[type=checkbox]{width:1rem;height:1rem}.index:not([open])>.prose{display:none}.index summary{min-height:var(--control);display:flex;align-items:center;color:var(--accent)}footer{padding-block:var(--s4);color:var(--muted)}.citation{display:block;min-height:var(--control);padding-block:var(--s1)}
 @media(max-width:48rem){main{padding:var(--s3)}.scope,.decisions{grid-template-columns:1fr;gap:var(--s4)}.scope aside{border-left:0;padding-left:0;border-top:var(--border) solid var(--line);padding-top:var(--s3)}.phase{grid-template-columns:1fr;gap:var(--s3)}.phase-label{flex-direction:row;align-items:center}.dialog-header{position:static}dialog{padding:var(--s3);width:calc(100% - var(--s3))}section{padding-block:var(--s4)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
-</style></head><body><main><header class="hero"><div class="eyebrow">Email Assistant / Implementation plan / Issue 12</div><h1>State that survives.<br>Actions that stay safe.</h1><p class="intro">Canonical PostgreSQL storage, guarded workflow transitions and a verified local restore route. Four sequential phases; implementation has not started.</p><div class="meta"><span class="state">Pending plan audit</span><span>21 October 2026 · Asia/Bangkok</span><span>Baseline d43df7f</span><span>Estimated effort 4–6 days</span></div><nav aria-label="Plan sections"><a href="#scope">Scope</a><a href="#architecture">Data flow</a><a href="#phases">Four phases</a><a href="#decisions">Decisions & gates</a></nav></header>
-<section id="scope" class="scope"><div><h2>One canonical record.<br>Three distinct responsibilities.</h2><p>PostgreSQL owns business identities, revisions, approvals, actions and projection intent. Private files own artifact bytes. Neo4j and Qdrant remain rebuildable projections; this issue adds their durable bookkeeping.</p><p>Acceptance requires real uniqueness and transition checks, restart persistence, and an isolated restore that recovers matching records and exact file bytes.</p></div><aside><h3>Scope boundary</h3><ul><li>One owner; one active Gmail account.</li><li>No provider dispatch, auth UI or scheduler.</li><li>No graph/vector indexing or queries.</li><li>Production restic/R2 stays with #42.</li><li>No PR or application code in this planning run.</li></ul></aside></section>
+</style></head><body><main><header class="hero"><div class="eyebrow">Email Assistant / Implementation plan / Issue 12</div><h1>State that survives.<br>Actions that stay safe.</h1><p class="intro">Canonical PostgreSQL storage, guarded workflow transitions and a verified local restore route. Four sequential phases completed; local checks passed. Owner review and publication remain separate gates.</p><div class="meta"><span class="state">Implementation verified locally</span><span>22 October 2026 · Asia/Bangkok</span><span>Baseline d43df7f</span><span>Estimated effort 4–6 days</span></div><nav aria-label="Plan sections"><a href="#scope">Scope</a><a href="#architecture">Data flow</a><a href="#phases">Four phases</a><a href="#decisions">Decisions & gates</a></nav></header>
+<section id="scope" class="scope"><div><h2>One canonical record.<br>Three distinct responsibilities.</h2><p>PostgreSQL owns business identities, revisions, approvals, actions and projection intent. Private files own artifact bytes. Neo4j and Qdrant remain rebuildable projections; this issue adds their durable bookkeeping.</p><p>Acceptance requires real uniqueness and transition checks, restart persistence, and an isolated restore that recovers matching records and exact file bytes.</p></div><aside><h3>Scope boundary</h3><ul><li>One owner; one active Gmail account.</li><li>No provider dispatch, auth UI or scheduler.</li><li>No graph/vector indexing or queries.</li><li>Production restic/R2 stays with #42.</li><li>No provider execution or production recovery claim.</li></ul></aside></section>
 <section id="architecture"><h2>Canonical writes and recovery</h2><p>Storage transactions own validity. Artifact readiness makes file/database gaps explicit. A matched snapshot restores into an isolated target before any success claim.</p><div class="diagram"><div class="ak-diagram-root" data-instance-id="7ddc39de" data-preset="editorial" data-theme="light" data-animation="none">
     <style>/* AgentKit Diagram Reader Styles & Presets (Archify-informed) */
 
@@ -1054,8 +1054,8 @@
 })();
 </script>
   </div></div></section>
-<section id="phases"><h2>Four phases, one migration history</h2><p>Execute sequentially. Each phase has a specific data contract, owned files and observable checks. Open any phase for its complete reviewed Markdown content.</p><article class="phase" id="phase-1"><div class="phase-label"><span class="number">01</span><span>P1 · Pending<br>Start here</span></div><div><h3>Schema &amp; migrations</h3><p>Accounts, company/contact identities, canonical records and one ordered Alembic history.</p><ul><li>Database constraints protect identity and references.</li><li>Local config separates runtime and migration roles.</li><li>Disposable migration starts with verified backup.</li></ul><p class="paths">models/records.py · migrations/ · config.py</p><p><strong>Gate:</strong> Upgrade twice; reject duplicate identities and cross-account references; preserve /health.</p><button data-modal="detail-1">Read phase 1<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-2"><div class="phase-label"><span class="number">02</span><span>P1 · Pending<br>After phase 1</span></div><div><h3>Transactional state</h3><p>Persist run steps, immutable revisions, approvals and action attempts with guarded transitions.</p><ul><li>Run retry creates a linked execution.</li><li>Claim checks exact approval revision atomically.</li><li>Unknown outcomes remain blocked from replay.</li></ul><p class="paths">domain/states.py · persistence/workflows.py</p><p><strong>Gate:</strong> Invalid-edge matrix, simultaneous claims, stale fences, edit-versus-claim and restart checks.</p><button data-modal="detail-2">Read phase 2<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-3"><div class="phase-label"><span class="number">03</span><span>P1 · Pending<br>After phase 2</span></div><div><h3>Projection &amp; artifacts</h3><p>Store canonical relationships, outbox/checkpoints and private artifact bytes with verifiable hashes.</p><ul><li>Canonical mutation and outbox share transaction.</li><li>Neo4j and Qdrant delivery state stay independent.</li><li>Private files use opaque keys and pending/ready state.</li></ul><p class="paths">persistence/projections.py · persistence/artifacts.py</p><p><strong>Gate:</strong> Atomic outbox rollback, stale revisions, tombstones, path rejection and artifact crash points.</p><button data-modal="detail-3">Read phase 3<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-4"><div class="phase-label"><span class="number">04</span><span>P1 · Pending<br>After phase 3</span></div><div><h3>Recovery &amp; delivery</h3><p>Prove matching database/file restore and document safe local migration commands.</p><ul><li>Keep exclusion through backup and migration.</li><li>Restore only into an empty isolated target.</li><li>Publish sanitized acceptance evidence for #12.</li></ul><p class="paths">scripts/storage-snapshot.py · scripts/check-stores.py · README.md</p><p><strong>Gate:</strong> Container restart, exact restored records/bytes, corrupt backup refusal and existing make check gates.</p><button data-modal="detail-4">Read phase 4<span aria-hidden="true"> ↗</span></button></div></article></section>
-<section id="decisions"><h2>Decisions and completion gates</h2><div class="decisions"><div><h3>Validated by owner</h3><ul><li>Retain account history with at most one active Gmail.</li><li>Retry terminal runs as linked new executions.</li><li>Reuse valid approval for the same revision only after #20 proves a failed_known retry safe.</li><li>Unknown outcomes require explicit reconciliation.</li></ul></div><div><h3>Evidence boundary</h3><p>40 source claims verified. Five red-team findings accepted by owner and applied; consistency sweep found no unresolved contradictions. Runtime checks below are future acceptance work; planning does not prove persistence behavior.</p><p>AgentWiki skipped: CLI and equivalent connector unavailable. No public fallback. Unresolved product questions: none after validation.</p></div></div><details class="index"><summary>Read plan index, source links and audit status</summary><div class="prose"><h1 id="index-persistent-workflow-and-company-storage">Persistent
+<section id="phases"><h2>Four phases, one migration history</h2><p>Execute sequentially. Each phase has a specific data contract, owned files and observable checks. Open any phase for its complete reviewed Markdown content.</p><article class="phase" id="phase-1"><div class="phase-label"><span class="number">01</span><span>P1 · Completed<br>Start here</span></div><div><h3>Schema &amp; migrations</h3><p>Accounts, company/contact identities, canonical records and one ordered Alembic history.</p><ul><li>Database constraints protect identity and references.</li><li>Local config separates runtime and migration roles.</li><li>Disposable migration starts with verified backup.</li></ul><p class="paths">models/records.py · migrations/ · config.py</p><p><strong>Gate:</strong> Upgrade twice; reject duplicate identities and cross-account references; preserve /health.</p><button data-modal="detail-1">Read phase 1<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-2"><div class="phase-label"><span class="number">02</span><span>P1 · Completed<br>After phase 1</span></div><div><h3>Transactional state</h3><p>Persist run steps, immutable revisions, approvals and action attempts with guarded transitions.</p><ul><li>Run retry creates a linked execution.</li><li>Claim checks exact approval revision atomically.</li><li>Unknown outcomes remain blocked from replay.</li></ul><p class="paths">domain/states.py · persistence/workflows.py</p><p><strong>Gate:</strong> Invalid-edge matrix, simultaneous claims, stale fences, edit-versus-claim and restart checks.</p><button data-modal="detail-2">Read phase 2<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-3"><div class="phase-label"><span class="number">03</span><span>P1 · Completed<br>After phase 2</span></div><div><h3>Projection &amp; artifacts</h3><p>Store canonical relationships, outbox/checkpoints and private artifact bytes with verifiable hashes.</p><ul><li>Canonical mutation and outbox share transaction.</li><li>Neo4j and Qdrant delivery state stay independent.</li><li>Private files use opaque keys and pending/ready state.</li></ul><p class="paths">persistence/projections.py · persistence/artifacts.py</p><p><strong>Gate:</strong> Atomic outbox rollback, stale revisions, tombstones, path rejection and artifact crash points.</p><button data-modal="detail-3">Read phase 3<span aria-hidden="true"> ↗</span></button></div></article><article class="phase" id="phase-4"><div class="phase-label"><span class="number">04</span><span>P1 · Completed<br>After phase 3</span></div><div><h3>Recovery &amp; delivery</h3><p>Prove matching database/file restore and document safe local migration commands.</p><ul><li>Keep exclusion through backup and migration.</li><li>Restore only into an empty isolated target.</li><li>Publish sanitized acceptance evidence for #12.</li></ul><p class="paths">scripts/storage-snapshot.py · scripts/check-stores.py · README.md</p><p><strong>Gate:</strong> Container restart, exact restored records/bytes, corrupt backup refusal and existing make check gates.</p><button data-modal="detail-4">Read phase 4<span aria-hidden="true"> ↗</span></button></div></article></section>
+<section id="decisions"><h2>Decisions and completion gates</h2><div class="decisions"><div><h3>Validated by owner</h3><ul><li>Retain account history with at most one active Gmail.</li><li>Retry terminal runs as linked new executions.</li><li>Reuse valid approval for the same revision only after #20 proves a failed_known retry safe.</li><li>Unknown outcomes require explicit reconciliation.</li></ul></div><div><h3>Evidence boundary</h3><p>40 source claims verified. Five red-team findings accepted by owner and applied; consistency sweep found no unresolved contradictions. Local persistence and recovery checks passed. Hosted CI, owner acceptance and production recovery remain separate gates.</p><p>AgentWiki skipped: CLI and equivalent connector unavailable. No public fallback. Unresolved product questions: none after validation.</p></div></div><details class="index"><summary>Read plan index, source links and audit status</summary><div class="prose"><h1 id="index-persistent-workflow-and-company-storage">Persistent
 workflow and company storage</h1>
 <h2 id="index-overview">Overview</h2>
 <p>Outcome: implement <a
@@ -1091,8 +1091,8 @@ evidence. Recheck before implementation.</li>
 href="../../docs/product-brief.md">product brief</a>, <a
 href="../../docs/delivery-backlog.md">backlog</a>.</li>
 <li><a href="../reports/cook-261020-2340-application-skeleton.md">Prior
-skeleton evidence</a>. Runtime persistence contracts below are proposed
-work, not current functionality.</li>
+skeleton evidence</a> describes the pre-storage baseline. Current
+implementation evidence is recorded in the phase files.</li>
 <li>#17 explicitly allows distinct companies sharing a domain. #19 owns
 authenticated approval; #20 owns dispatch/reconciliation; #42 owns
 production recovery.</li>
@@ -1103,7 +1103,7 @@ production recovery.</li>
 <tr class="header">
 <th>#</th>
 <th>Phase</th>
-<th>Status</th>
+<th>Dependencies</th>
 </tr>
 </thead>
 <tbody>
@@ -1111,28 +1111,30 @@ production recovery.</li>
 <td>1</td>
 <td><a href="./phase-01-start.md">Schema and migration
 foundation</a></td>
-<td>Pending</td>
+<td>None</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td><a href="./phase-02-transactional-state.md">Transactional workflow
 state</a></td>
-<td>Pending; depends on 1</td>
+<td>1</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td><a href="./phase-03-projection-storage.md">Canonical projection and
 artifact storage</a></td>
-<td>Pending; depends on 2</td>
+<td>2</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td><a href="./phase-04-recovery-and-delivery.md">Recovery and delivery
 evidence</a></td>
-<td>Pending; depends on 3</td>
+<td>3</td>
 </tr>
 </tbody>
 </table>
+<p>Phase checkboxes own completion state; <code>ak plan status</code>
+summarizes their current progress.</p>
 <p>Execution is sequential: migration history, persistence helpers,
 Makefile and integration runner have one owner at a time. Root paths in
 phase inventories are repository-relative so this plan survives worktree
@@ -1169,14 +1171,16 @@ after final gates. Markdown phases remain execution authority.</li>
 equivalent AgentWiki MCP tools are exposed. No public fallback.</li>
 <li>Runtime task hydration: durable phase checkboxes; no separate
 task-management tool is exposed.</li>
-<li>Next: plan audit after branch push. Validation and red-team passed;
-cooking still requires downstream audit and owner task selection.</li>
+<li>Implementation branch:
+<code>feat/issue-12-persistent-storage</code>. Independent code review
+and scoped simplification ran; phase files record execution checks.
+Commit, publication and owner acceptance remain separate gates.</li>
 </ul>
 <h2 id="index-unresolved-questions">Unresolved questions</h2>
-<p>None after critical-question validation. Red-team fixes applied and
-source verification passed. No implementation has started.</p>
-</div></details></section>
-<section><h2>Sources and next owner</h2><p>Next: audit the reviewed plan branch. Implementation requires a separate owner-selected cook invocation after audit.</p><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/issues/12">Source issue #12</a><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/blob/d43df7fffe8324879096153974e52783bedc01dd/docs/codebase-blueprint.md">Accepted blueprint at source baseline</a><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/pull/46">Prerequisite skeleton · merged PR #46</a></section><footer>Offline reader · Markdown phase files remain execution authority · No network assets</footer><dialog id="detail-1" aria-labelledby="title-1"><header class="dialog-header"><h2 id="title-1">Phase 1 · Schema &amp; migrations</h2><form method="dialog"><button aria-label="Close phase 1">Close</button></form></header><div class="prose"><h1 id="phase-1-phase-1-schema-and-migration-foundation">Phase 1: Schema
+<p>No unresolved product questions. Implementation preserves the
+accepted scope; provider execution, authenticated approval and
+production recovery remain downstream.</p></div></details></section>
+<section><h2>Sources and next owner</h2><p>Next: review and ship the verified storage branch; owner acceptance remains separate.</p><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/issues/12">Source issue #12</a><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/blob/d43df7fffe8324879096153974e52783bedc01dd/docs/codebase-blueprint.md">Accepted blueprint at source baseline</a><a class="citation" href="https://github.com/mr-bean-and-agents-squad/email-assistant/pull/46">Prerequisite skeleton · merged PR #46</a></section><footer>Offline reader · Markdown phase files remain execution authority · No network assets</footer><dialog id="detail-1" aria-labelledby="title-1"><header class="dialog-header"><h2 id="title-1">Phase 1 · Schema &amp; migrations</h2><form method="dialog"><button aria-label="Close phase 1">Close</button></form></header><div class="prose"><h1 id="phase-1-phase-1-schema-and-migration-foundation">Phase 1: Schema
 and migration foundation</h1>
 <h2 id="phase-1-context-and-outcome">Context and outcome</h2>
 <p>Read <a href="./plan.md">plan</a>, <a
@@ -1358,27 +1362,35 @@ never pytest directly against development stores. Focus first on
 <code>test_schema.py</code> through a runner filter added without
 weakening whole-suite default.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Empty schema upgrades to one head;
-repeat upgrade produces no changes; model metadata matches
+<li><label><input type="checkbox" checked="" />Empty schema upgrades to
+one head; repeat upgrade produces no changes; model metadata matches
 migration.</label></li>
-<li><label><input type="checkbox" />Duplicate provider subjects, root
-run keys and retry submission/predecessor keys, company identifiers
-within one company, company/contact pairs and action logical keys fail
-in PostgreSQL.</label></li>
-<li><label><input type="checkbox" />Shared company domain, same display
-name and distinct account-scoped addresses remain
+<li><label><input type="checkbox" checked="" />Duplicate provider
+subjects, root run keys and retry submission/predecessor keys, company
+identifiers within one company, company/contact pairs and action logical
+keys fail in PostgreSQL.</label></li>
+<li><label><input type="checkbox" checked="" />Shared company domain,
+same display name and distinct account-scoped addresses remain
 representable.</label></li>
-<li><label><input type="checkbox" />A genuine retry of unchanged logical
-input succeeds as a new generation; concurrent duplicate retries yield
-one successor. Equal-content records and A/B/A revisions remain
-valid.</label></li>
-<li><label><input type="checkbox" />Invalid FK/cross-account/revision
-references fail; secret values never appear in exceptions/log
-assertions.</label></li>
-<li><label><input type="checkbox" />Missing/invalid DB config fails only
-DB commands, while <code>/health</code> remains usable.</label></li>
+<li><label><input type="checkbox" checked="" />A genuine retry of
+unchanged logical input succeeds as a new generation; concurrent
+duplicate retries yield one successor. Equal-content records and A/B/A
+revisions remain valid.</label></li>
+<li><label><input type="checkbox" checked="" />Invalid
+FK/cross-account/revision references fail; secret values never appear in
+exceptions/log assertions.</label></li>
+<li><label><input type="checkbox" checked="" />Missing/invalid DB config
+fails only DB commands, while <code>/health</code> remains
+usable.</label></li>
 </ul>
 <h2 id="phase-1-risks-security-and-abort">Risks, security and abort</h2>
+<p>Execution evidence (2026-10-22): the focused schema suite passed all
+10 tests on disposable PostgreSQL 17. It verifies migration/metadata
+agreement, repeat upgrade, runtime DDL denial, duplicate identities, one
+active Gmail connection with retained disconnected history, account
+boundaries, canonical SQL guards and sanitized parameter errors. The
+unit suite also verifies independent DB configuration and DB-free
+health.</p>
 <p>Review exact DB role grants in phase 2. The current Compose owner
 role is administrative; application-only validation cannot defend
 arbitrary direct superuser writes. Avoid claiming that threat model. No
@@ -1387,8 +1399,7 @@ occupied foreign port or missing disposable ownership. After failed
 migration, keep backups and report revision; do not delete owner volumes
 or attempt an unreviewed downgrade. Next: phase 2 after schema checks
 pass.</p>
-<!-- Updated: Red-team Session 1 - isolate actual test destinations; separate runtime credentials; define run execution identity and nonunique content hashes. -->
-</div></dialog><dialog id="detail-2" aria-labelledby="title-2"><header class="dialog-header"><h2 id="title-2">Phase 2 · Transactional state</h2><form method="dialog"><button aria-label="Close phase 2">Close</button></form></header><div class="prose"><h1 id="phase-2-phase-2-transactional-workflow-state">Phase 2:
+<!-- Updated: Red-team Session 1 - isolate actual test destinations; separate runtime credentials; define run execution identity and nonunique content hashes. --></div></dialog><dialog id="detail-2" aria-labelledby="title-2"><header class="dialog-header"><h2 id="title-2">Phase 2 · Transactional state</h2><form method="dialog"><button aria-label="Close phase 2">Close</button></form></header><div class="prose"><h1 id="phase-2-phase-2-transactional-workflow-state">Phase 2:
 Transactional workflow state</h1>
 <h2 id="phase-2-context-and-outcome">Context and outcome</h2>
 <p>Depends on phase 1. Read <a
@@ -1571,27 +1582,33 @@ success criteria</h2>
 <code>make test-integration</code>, including selected-file filtering
 introduced in phase 1.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Enumerated invalid edges fail via
-persistence and raw SQL using runtime role; no-op duplicate submissions
-are idempotent, not duplicate approvals/attempts.</label></li>
-<li><label><input type="checkbox" />Two claims yield exactly one current
-claim and one attempt; stale versions/fences cannot change
+<li><label><input type="checkbox" checked="" />Enumerated invalid edges
+fail via persistence and raw SQL using runtime role; no-op duplicate
+submissions are idempotent, not duplicate
+approvals/attempts.</label></li>
+<li><label><input type="checkbox" checked="" />Two claims yield exactly
+one current claim and one attempt; stale versions/fences cannot change
 results.</label></li>
-<li><label><input type="checkbox" />Edit/rejection preserves history and
-invalidates executable authorization; kind/destination/attachment
-mismatch fails.</label></li>
-<li><label><input type="checkbox" />Expired claimed send becomes unknown
-and cannot return to approved/claimed without explicit resolution;
-restart does not clear it.</label></li>
-<li><label><input type="checkbox" />Terminal run retries preserve
-original logical input and history, increment execution generation and
-deduplicate concurrent retry submissions; saved completed steps survive
-fresh connections.</label></li>
-<li><label><input type="checkbox" />Multirow failure rolls back
-decision, action, attempt and audit writes together.</label></li>
+<li><label><input type="checkbox" checked="" />Edit/rejection preserves
+history and invalidates executable authorization;
+kind/destination/attachment mismatch fails.</label></li>
+<li><label><input type="checkbox" checked="" />Expired claimed send
+becomes unknown and cannot return to approved/claimed without explicit
+resolution; restart does not clear it.</label></li>
+<li><label><input type="checkbox" checked="" />Terminal run retries
+preserve original logical input and history, increment execution
+generation and deduplicate concurrent retry submissions; saved completed
+steps survive fresh connections.</label></li>
+<li><label><input type="checkbox" checked="" />Multirow failure rolls
+back decision, action, attempt and audit writes together.</label></li>
 </ul>
 <h2 id="phase-2-risks-security-and-rollback">Risks, security and
 rollback</h2>
+<p>Execution evidence (2026-10-22): all 8 workflow tests passed on
+disposable PostgreSQL. They cover the rejected-edge matrix, synchronized
+claim/edit/decision/retry races, immutable A/B/A history, exact snapshot
+mismatch rejection, fencing, expiry/unknown safety, durable completed
+steps and atomic rollback.</p>
 <p>No provider calls, auth acceptance or exactly-once external delivery
 claim. Trigger changes require backup before migration. Avoid deadlocks
 through fixed lock order; surface bounded lock conflicts without
@@ -1600,8 +1617,7 @@ sanitized evidence; restore to a fresh isolated target rather than
 dropping history. Next: phase 3.</p>
 <!-- Updated: Validation Session 1 - terminal runs remain immutable; safe failed_known retries may reuse exact-revision approval under #20. -->
 
-<!-- Updated: Red-team Session 1 - align retry generation/idempotency and real local runtime-role checks with phase 1. -->
-</div></dialog><dialog id="detail-3" aria-labelledby="title-3"><header class="dialog-header"><h2 id="title-3">Phase 3 · Projection &amp; artifacts</h2><form method="dialog"><button aria-label="Close phase 3">Close</button></form></header><div class="prose"><h1 id="phase-3-phase-3-canonical-projection-and-artifact-storage">Phase
+<!-- Updated: Red-team Session 1 - align retry generation/idempotency and real local runtime-role checks with phase 1. --></div></dialog><dialog id="detail-3" aria-labelledby="title-3"><header class="dialog-header"><h2 id="title-3">Phase 3 · Projection &amp; artifacts</h2><form method="dialog"><button aria-label="Close phase 3">Close</button></form></header><div class="prose"><h1 id="phase-3-phase-3-canonical-projection-and-artifact-storage">Phase
 3: Canonical projection and artifact storage</h1>
 <h2 id="phase-3-context-and-outcome">Context and outcome</h2>
 <p>Depends on phase 2. Read <a
@@ -1709,35 +1725,44 @@ success criteria</h2>
 original real Neo4j/Qdrant authentication/restart tests intact. Provider
 keys remain blank.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Canonical mutation failure yields no
-outbox event; successful mutation yields one event, even for repeated
-submissions.</label></li>
-<li><label><input type="checkbox" />Neo4j and Qdrant delivery rows
-remain independent; out-of-order/stale updates and stale delete
+<li><label><input type="checkbox" checked="" />Canonical mutation
+failure yields no outbox event; successful mutation yields one event,
+even for repeated submissions.</label></li>
+<li><label><input type="checkbox" checked="" />Neo4j and Qdrant delivery
+rows remain independent; out-of-order/stale updates and stale delete
 acknowledgments cannot advance current state incorrectly.</label></li>
-<li><label><input type="checkbox" />Deletion/revision/index-generation
-references survive restart and are enough for downstream rebuild
-contracts; this does not prove an actual rebuild.</label></li>
-<li><label><input type="checkbox" />Absolute, traversal and symlink
-paths are refused; altered/truncated artifact bytes fail checksum
-verification.</label></li>
-<li><label><input type="checkbox" />Crash before/after file write leaves
-detectable pending metadata or unreferenced opaque file; never a ready
-reference to missing bytes.</label></li>
-<li><label><input type="checkbox" />Approved-retained artifacts and
-temporary artifacts remain distinct; approval/action history is
-preserved.</label></li>
+<li><label><input type="checkbox"
+checked="" />Deletion/revision/index-generation references survive
+restart and are enough for downstream rebuild contracts; this does not
+prove an actual rebuild.</label></li>
+<li><label><input type="checkbox" checked="" />Absolute, traversal and
+symlink paths are refused; altered/truncated artifact bytes fail
+checksum verification.</label></li>
+<li><label><input type="checkbox" checked="" />Crash before/after file
+write leaves detectable pending metadata or unreferenced opaque file;
+never a ready reference to missing bytes.</label></li>
+<li><label><input type="checkbox" checked="" />Approved-retained
+artifacts and temporary artifacts remain distinct; approval/action
+history is preserved.</label></li>
 </ul>
 <h2 id="phase-3-risks-security-and-rollback">Risks, security and
 rollback</h2>
+<p>Execution evidence (2026-10-22): 3 projection tests and 2 artifact
+tests passed, plus filesystem unit checks. They verify atomic
+revision/outbox commits, independent targets, stale/tombstone guards,
+provenance/model references, retained/temporary separation and
+interrupted file publication. Review exposed an applied-delivery SQL
+bypass; its regression failed before the deferred checkpoint guard and
+passed afterward. Recovery tests compare persisted projection metadata
+after restart/restore. No projector, embedding generation or retrieval
+quality is claimed.</p>
 <p>Filesystem and PostgreSQL are not one transaction. Test each crash
 point and keep readiness explicit. Do not pretend projection metadata
 tests prove actual Neo4j/Qdrant writes, semantic retrieval or
 cross-store deletion; #17/#18/#21/#25/#33 and #40-42 own those
 integrations. Back up before migrations and abort on incompatible
 history. Next: phase 4 verifies matched snapshot/restore.</p>
-<!-- Updated: Red-team Session 1 - environment isolation includes resolved artifact and database destinations. -->
-</div></dialog><dialog id="detail-4" aria-labelledby="title-4"><header class="dialog-header"><h2 id="title-4">Phase 4 · Recovery &amp; delivery</h2><form method="dialog"><button aria-label="Close phase 4">Close</button></form></header><div class="prose"><h1 id="phase-4-phase-4-recovery-and-delivery-evidence">Phase 4:
+<!-- Updated: Red-team Session 1 - environment isolation includes resolved artifact and database destinations. --></div></dialog><dialog id="detail-4" aria-labelledby="title-4"><header class="dialog-header"><h2 id="title-4">Phase 4 · Recovery &amp; delivery</h2><form method="dialog"><button aria-label="Close phase 4">Close</button></form></header><div class="prose"><h1 id="phase-4-phase-4-recovery-and-delivery-evidence">Phase 4:
 Recovery and delivery evidence</h1>
 <h2 id="phase-4-context-and-outcome">Context and outcome</h2>
 <p>Depends on phases 1-3. Read <a href="../../README.md">README</a>, <a
@@ -1900,18 +1925,38 @@ tombstones, provenance and cached-vector metadata tests</td>
 </tbody>
 </table>
 <ul class="task-list">
-<li><label><input type="checkbox" />Focused suites and full required
-checks pass without secret leakage or owner-data mutation.</label></li>
-<li><label><input type="checkbox" />Restore recovers states, revision
-relationships and exact artifact bytes; pending/unknown states remain
-safe.</label></li>
-<li><label><input type="checkbox" />Local operational route documented
-and verified; production R2/decryption/projection rebuild remain
-explicitly unverified.</label></li>
-<li><label><input type="checkbox" />Evidence maps to all #12 acceptance
-criteria; owner review still owns issue acceptance.</label></li>
+<li><label><input type="checkbox" checked="" />Focused suites and full
+required checks pass without secret leakage or owner-data
+mutation.</label></li>
+<li><label><input type="checkbox" checked="" />Restore recovers states,
+revision relationships and exact artifact bytes; pending/unknown states
+remain safe.</label></li>
+<li><label><input type="checkbox" checked="" />Local operational route
+documented and verified; production R2/decryption/projection rebuild
+remain explicitly unverified.</label></li>
+<li><label><input type="checkbox" checked="" />Evidence maps to all #12
+acceptance criteria; owner review still owns issue
+acceptance.</label></li>
 </ul>
 <h2 id="phase-4-risks-rollback-and-abort">Risks, rollback and abort</h2>
+<p>Execution evidence (2026-10-22): final <code>make check</code> passed
+lint, typecheck, API drift, build, 30 unit tests, 32 integration tests
+and 1 real-browser E2E test. Six recovery tests verified actual
+container restart/fresh-process reads, named record types, exact DB/file
+restore, different target timezone, runtime read/write and DDL denial
+after restore, explicit new-role provisioning and refusal/failure paths.
+A full earlier gate with conflicting inherited storage/PG/test selectors
+left a synthetic owner sentinel unchanged. All owned test
+services/volumes and E2E servers were cleaned up.</p>
+<p>Independent review findings were repaired and the follow-up review
+returned no remaining finding in scope. The local operator route is
+documented in the README and Make help. The controller checkout retains
+the sanitized report at
+<code>plans/reports/cook-261022-issue-12-persistent-storage.md</code>;
+shipping must copy it deliberately if needed on this branch. No commit,
+push, PR or issue update was performed. Hosted CI, owner acceptance,
+production recovery, token decryption and actual projection rebuild
+remain pending.</p>
 <p>Backups may contain future private business data: use owner-only
 local storage, exclude them from Git and clean owned disposable copies
 only. Abort migration on backup/exclusion failure; retain pre-upgrade
@@ -1922,8 +1967,7 @@ pre-upgrade snapshot into a fresh target, then explicitly switch local
 configuration after checks. A later forward repair is safer than an
 untested destructive downgrade. Never reset shared volumes, broaden
 exposure or skip a selected store to get green tests.</p>
-<!-- Updated: Red-team Session 1 - hold one exclusion across backup/upgrade/failure; validate runtime role and inherited-environment isolation on actual resolved destinations. -->
-</div></dialog><noscript><section><h2>Phase details</h2><h1 id="fallback-1-phase-1-schema-and-migration-foundation">Phase 1:
+<!-- Updated: Red-team Session 1 - hold one exclusion across backup/upgrade/failure; validate runtime role and inherited-environment isolation on actual resolved destinations. --></div></dialog><noscript><section><h2>Phase details</h2><h1 id="fallback-1-phase-1-schema-and-migration-foundation">Phase 1:
 Schema and migration foundation</h1>
 <h2 id="fallback-1-context-and-outcome">Context and outcome</h2>
 <p>Read <a href="./plan.md">plan</a>, <a
@@ -2105,28 +2149,36 @@ never pytest directly against development stores. Focus first on
 <code>test_schema.py</code> through a runner filter added without
 weakening whole-suite default.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Empty schema upgrades to one head;
-repeat upgrade produces no changes; model metadata matches
+<li><label><input type="checkbox" checked="" />Empty schema upgrades to
+one head; repeat upgrade produces no changes; model metadata matches
 migration.</label></li>
-<li><label><input type="checkbox" />Duplicate provider subjects, root
-run keys and retry submission/predecessor keys, company identifiers
-within one company, company/contact pairs and action logical keys fail
-in PostgreSQL.</label></li>
-<li><label><input type="checkbox" />Shared company domain, same display
-name and distinct account-scoped addresses remain
+<li><label><input type="checkbox" checked="" />Duplicate provider
+subjects, root run keys and retry submission/predecessor keys, company
+identifiers within one company, company/contact pairs and action logical
+keys fail in PostgreSQL.</label></li>
+<li><label><input type="checkbox" checked="" />Shared company domain,
+same display name and distinct account-scoped addresses remain
 representable.</label></li>
-<li><label><input type="checkbox" />A genuine retry of unchanged logical
-input succeeds as a new generation; concurrent duplicate retries yield
-one successor. Equal-content records and A/B/A revisions remain
-valid.</label></li>
-<li><label><input type="checkbox" />Invalid FK/cross-account/revision
-references fail; secret values never appear in exceptions/log
-assertions.</label></li>
-<li><label><input type="checkbox" />Missing/invalid DB config fails only
-DB commands, while <code>/health</code> remains usable.</label></li>
+<li><label><input type="checkbox" checked="" />A genuine retry of
+unchanged logical input succeeds as a new generation; concurrent
+duplicate retries yield one successor. Equal-content records and A/B/A
+revisions remain valid.</label></li>
+<li><label><input type="checkbox" checked="" />Invalid
+FK/cross-account/revision references fail; secret values never appear in
+exceptions/log assertions.</label></li>
+<li><label><input type="checkbox" checked="" />Missing/invalid DB config
+fails only DB commands, while <code>/health</code> remains
+usable.</label></li>
 </ul>
 <h2 id="fallback-1-risks-security-and-abort">Risks, security and
 abort</h2>
+<p>Execution evidence (2026-10-22): the focused schema suite passed all
+10 tests on disposable PostgreSQL 17. It verifies migration/metadata
+agreement, repeat upgrade, runtime DDL denial, duplicate identities, one
+active Gmail connection with retained disconnected history, account
+boundaries, canonical SQL guards and sanitized parameter errors. The
+unit suite also verifies independent DB configuration and DB-free
+health.</p>
 <p>Review exact DB role grants in phase 2. The current Compose owner
 role is administrative; application-only validation cannot defend
 arbitrary direct superuser writes. Avoid claiming that threat model. No
@@ -2135,8 +2187,7 @@ occupied foreign port or missing disposable ownership. After failed
 migration, keep backups and report revision; do not delete owner volumes
 or attempt an unreviewed downgrade. Next: phase 2 after schema checks
 pass.</p>
-<!-- Updated: Red-team Session 1 - isolate actual test destinations; separate runtime credentials; define run execution identity and nonunique content hashes. -->
-<h1 id="fallback-2-phase-2-transactional-workflow-state">Phase 2:
+<!-- Updated: Red-team Session 1 - isolate actual test destinations; separate runtime credentials; define run execution identity and nonunique content hashes. --><h1 id="fallback-2-phase-2-transactional-workflow-state">Phase 2:
 Transactional workflow state</h1>
 <h2 id="fallback-2-context-and-outcome">Context and outcome</h2>
 <p>Depends on phase 1. Read <a
@@ -2319,27 +2370,33 @@ success criteria</h2>
 <code>make test-integration</code>, including selected-file filtering
 introduced in phase 1.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Enumerated invalid edges fail via
-persistence and raw SQL using runtime role; no-op duplicate submissions
-are idempotent, not duplicate approvals/attempts.</label></li>
-<li><label><input type="checkbox" />Two claims yield exactly one current
-claim and one attempt; stale versions/fences cannot change
+<li><label><input type="checkbox" checked="" />Enumerated invalid edges
+fail via persistence and raw SQL using runtime role; no-op duplicate
+submissions are idempotent, not duplicate
+approvals/attempts.</label></li>
+<li><label><input type="checkbox" checked="" />Two claims yield exactly
+one current claim and one attempt; stale versions/fences cannot change
 results.</label></li>
-<li><label><input type="checkbox" />Edit/rejection preserves history and
-invalidates executable authorization; kind/destination/attachment
-mismatch fails.</label></li>
-<li><label><input type="checkbox" />Expired claimed send becomes unknown
-and cannot return to approved/claimed without explicit resolution;
-restart does not clear it.</label></li>
-<li><label><input type="checkbox" />Terminal run retries preserve
-original logical input and history, increment execution generation and
-deduplicate concurrent retry submissions; saved completed steps survive
-fresh connections.</label></li>
-<li><label><input type="checkbox" />Multirow failure rolls back
-decision, action, attempt and audit writes together.</label></li>
+<li><label><input type="checkbox" checked="" />Edit/rejection preserves
+history and invalidates executable authorization;
+kind/destination/attachment mismatch fails.</label></li>
+<li><label><input type="checkbox" checked="" />Expired claimed send
+becomes unknown and cannot return to approved/claimed without explicit
+resolution; restart does not clear it.</label></li>
+<li><label><input type="checkbox" checked="" />Terminal run retries
+preserve original logical input and history, increment execution
+generation and deduplicate concurrent retry submissions; saved completed
+steps survive fresh connections.</label></li>
+<li><label><input type="checkbox" checked="" />Multirow failure rolls
+back decision, action, attempt and audit writes together.</label></li>
 </ul>
 <h2 id="fallback-2-risks-security-and-rollback">Risks, security and
 rollback</h2>
+<p>Execution evidence (2026-10-22): all 8 workflow tests passed on
+disposable PostgreSQL. They cover the rejected-edge matrix, synchronized
+claim/edit/decision/retry races, immutable A/B/A history, exact snapshot
+mismatch rejection, fencing, expiry/unknown safety, durable completed
+steps and atomic rollback.</p>
 <p>No provider calls, auth acceptance or exactly-once external delivery
 claim. Trigger changes require backup before migration. Avoid deadlocks
 through fixed lock order; surface bounded lock conflicts without
@@ -2348,8 +2405,7 @@ sanitized evidence; restore to a fresh isolated target rather than
 dropping history. Next: phase 3.</p>
 <!-- Updated: Validation Session 1 - terminal runs remain immutable; safe failed_known retries may reuse exact-revision approval under #20. -->
 
-<!-- Updated: Red-team Session 1 - align retry generation/idempotency and real local runtime-role checks with phase 1. -->
-<h1
+<!-- Updated: Red-team Session 1 - align retry generation/idempotency and real local runtime-role checks with phase 1. --><h1
 id="fallback-3-phase-3-canonical-projection-and-artifact-storage">Phase
 3: Canonical projection and artifact storage</h1>
 <h2 id="fallback-3-context-and-outcome">Context and outcome</h2>
@@ -2458,35 +2514,44 @@ success criteria</h2>
 original real Neo4j/Qdrant authentication/restart tests intact. Provider
 keys remain blank.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" />Canonical mutation failure yields no
-outbox event; successful mutation yields one event, even for repeated
-submissions.</label></li>
-<li><label><input type="checkbox" />Neo4j and Qdrant delivery rows
-remain independent; out-of-order/stale updates and stale delete
+<li><label><input type="checkbox" checked="" />Canonical mutation
+failure yields no outbox event; successful mutation yields one event,
+even for repeated submissions.</label></li>
+<li><label><input type="checkbox" checked="" />Neo4j and Qdrant delivery
+rows remain independent; out-of-order/stale updates and stale delete
 acknowledgments cannot advance current state incorrectly.</label></li>
-<li><label><input type="checkbox" />Deletion/revision/index-generation
-references survive restart and are enough for downstream rebuild
-contracts; this does not prove an actual rebuild.</label></li>
-<li><label><input type="checkbox" />Absolute, traversal and symlink
-paths are refused; altered/truncated artifact bytes fail checksum
-verification.</label></li>
-<li><label><input type="checkbox" />Crash before/after file write leaves
-detectable pending metadata or unreferenced opaque file; never a ready
-reference to missing bytes.</label></li>
-<li><label><input type="checkbox" />Approved-retained artifacts and
-temporary artifacts remain distinct; approval/action history is
-preserved.</label></li>
+<li><label><input type="checkbox"
+checked="" />Deletion/revision/index-generation references survive
+restart and are enough for downstream rebuild contracts; this does not
+prove an actual rebuild.</label></li>
+<li><label><input type="checkbox" checked="" />Absolute, traversal and
+symlink paths are refused; altered/truncated artifact bytes fail
+checksum verification.</label></li>
+<li><label><input type="checkbox" checked="" />Crash before/after file
+write leaves detectable pending metadata or unreferenced opaque file;
+never a ready reference to missing bytes.</label></li>
+<li><label><input type="checkbox" checked="" />Approved-retained
+artifacts and temporary artifacts remain distinct; approval/action
+history is preserved.</label></li>
 </ul>
 <h2 id="fallback-3-risks-security-and-rollback">Risks, security and
 rollback</h2>
+<p>Execution evidence (2026-10-22): 3 projection tests and 2 artifact
+tests passed, plus filesystem unit checks. They verify atomic
+revision/outbox commits, independent targets, stale/tombstone guards,
+provenance/model references, retained/temporary separation and
+interrupted file publication. Review exposed an applied-delivery SQL
+bypass; its regression failed before the deferred checkpoint guard and
+passed afterward. Recovery tests compare persisted projection metadata
+after restart/restore. No projector, embedding generation or retrieval
+quality is claimed.</p>
 <p>Filesystem and PostgreSQL are not one transaction. Test each crash
 point and keep readiness explicit. Do not pretend projection metadata
 tests prove actual Neo4j/Qdrant writes, semantic retrieval or
 cross-store deletion; #17/#18/#21/#25/#33 and #40-42 own those
 integrations. Back up before migrations and abort on incompatible
 history. Next: phase 4 verifies matched snapshot/restore.</p>
-<!-- Updated: Red-team Session 1 - environment isolation includes resolved artifact and database destinations. -->
-<h1 id="fallback-4-phase-4-recovery-and-delivery-evidence">Phase 4:
+<!-- Updated: Red-team Session 1 - environment isolation includes resolved artifact and database destinations. --><h1 id="fallback-4-phase-4-recovery-and-delivery-evidence">Phase 4:
 Recovery and delivery evidence</h1>
 <h2 id="fallback-4-context-and-outcome">Context and outcome</h2>
 <p>Depends on phases 1-3. Read <a href="../../README.md">README</a>, <a
@@ -2649,19 +2714,39 @@ tombstones, provenance and cached-vector metadata tests</td>
 </tbody>
 </table>
 <ul class="task-list">
-<li><label><input type="checkbox" />Focused suites and full required
-checks pass without secret leakage or owner-data mutation.</label></li>
-<li><label><input type="checkbox" />Restore recovers states, revision
-relationships and exact artifact bytes; pending/unknown states remain
-safe.</label></li>
-<li><label><input type="checkbox" />Local operational route documented
-and verified; production R2/decryption/projection rebuild remain
-explicitly unverified.</label></li>
-<li><label><input type="checkbox" />Evidence maps to all #12 acceptance
-criteria; owner review still owns issue acceptance.</label></li>
+<li><label><input type="checkbox" checked="" />Focused suites and full
+required checks pass without secret leakage or owner-data
+mutation.</label></li>
+<li><label><input type="checkbox" checked="" />Restore recovers states,
+revision relationships and exact artifact bytes; pending/unknown states
+remain safe.</label></li>
+<li><label><input type="checkbox" checked="" />Local operational route
+documented and verified; production R2/decryption/projection rebuild
+remain explicitly unverified.</label></li>
+<li><label><input type="checkbox" checked="" />Evidence maps to all #12
+acceptance criteria; owner review still owns issue
+acceptance.</label></li>
 </ul>
 <h2 id="fallback-4-risks-rollback-and-abort">Risks, rollback and
 abort</h2>
+<p>Execution evidence (2026-10-22): final <code>make check</code> passed
+lint, typecheck, API drift, build, 30 unit tests, 32 integration tests
+and 1 real-browser E2E test. Six recovery tests verified actual
+container restart/fresh-process reads, named record types, exact DB/file
+restore, different target timezone, runtime read/write and DDL denial
+after restore, explicit new-role provisioning and refusal/failure paths.
+A full earlier gate with conflicting inherited storage/PG/test selectors
+left a synthetic owner sentinel unchanged. All owned test
+services/volumes and E2E servers were cleaned up.</p>
+<p>Independent review findings were repaired and the follow-up review
+returned no remaining finding in scope. The local operator route is
+documented in the README and Make help. The controller checkout retains
+the sanitized report at
+<code>plans/reports/cook-261022-issue-12-persistent-storage.md</code>;
+shipping must copy it deliberately if needed on this branch. No commit,
+push, PR or issue update was performed. Hosted CI, owner acceptance,
+production recovery, token decryption and actual projection rebuild
+remain pending.</p>
 <p>Backups may contain future private business data: use owner-only
 local storage, exclude them from Git and clean owned disposable copies
 only. Abort migration on backup/exclusion failure; retain pre-upgrade
@@ -2672,5 +2757,4 @@ pre-upgrade snapshot into a fresh target, then explicitly switch local
 configuration after checks. A later forward repair is safer than an
 untested destructive downgrade. Never reset shared volumes, broaden
 exposure or skip a selected store to get green tests.</p>
-<!-- Updated: Red-team Session 1 - hold one exclusion across backup/upgrade/failure; validate runtime role and inherited-environment isolation on actual resolved destinations. -->
-</section></noscript></main><script id="phase-source-hashes" type="application/json">{"phase-01-start.md": "ac9ce09fb87472d0a9a75724a5c71335c2fa70274140082c5b62b2988b9c0469", "phase-02-transactional-state.md": "1047517856dca8ca7b03833fad4690a36f5ff59284524fd2e23bbddde2bb79d6", "phase-03-projection-storage.md": "3acc60e966c2300dc6ce1bf3293e2605fee589529dc4207c516e66dfbea562d3", "phase-04-recovery-and-delivery.md": "36ba6178143290271999226bb0c53937614ad126c09161d51b4c702c2a520e20"}</script><script>document.querySelectorAll('[data-modal]').forEach(button=>button.addEventListener('click',()=>document.getElementById(button.dataset.modal).showModal()));document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close()}}));</script></body></html>
+<!-- Updated: Red-team Session 1 - hold one exclusion across backup/upgrade/failure; validate runtime role and inherited-environment isolation on actual resolved destinations. --></section></noscript></main><script id="phase-source-hashes" type="application/json">{"phase-01-start.md": "0fcdab0d5ec91acd6c68ab79fa38bbb4c3a9f97517d8443b65830a9e7a6832e0", "phase-02-transactional-state.md": "57f070bee17a1fb6964979ca1836e3388d81b8eb050ce5ac8c2fc5cfb1ada1ed", "phase-03-projection-storage.md": "90861c95ad3783afcbdda412efc6b94a7cd43a430f82234d66722652a2b7724d", "phase-04-recovery-and-delivery.md": "5a137320772236e2d2a797dbdb23e9d28b2fb2414792d6df61016f6915698217"}</script><script>document.querySelectorAll('[data-modal]').forEach(button=>button.addEventListener('click',()=>document.getElementById(button.dataset.modal).showModal()));document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close()}}));</script></body></html>
