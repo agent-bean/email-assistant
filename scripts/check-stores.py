@@ -20,7 +20,9 @@ def ports_available(ports: tuple[int, ...]) -> bool:
             try:
                 probe.bind(("127.0.0.1", port))
             except OSError:
-                print(f"Port {port} occupied; identify its owner and stop local dev stores first.")
+                print(
+                    f"Port {port} occupied; identify its owner and stop local dev stores first."
+                )
                 return False
     return True
 
@@ -36,7 +38,8 @@ def main() -> int:
     env = {
         k: v
         for k, v in os.environ.items()
-        if k
+        if not k.startswith(("STORAGE_", "PG", "STORE_TEST_"))
+        and k
         not in (
             "POSTGRES_PASSWORD",
             "NEO4J_PASSWORD",
@@ -53,6 +56,17 @@ def main() -> int:
             )
         )
         config.chmod(0o600)
+        artifact_root = Path(directory) / "artifacts"
+        artifact_root.mkdir(mode=0o700)
+        values = dict(line.split("=", 1) for line in config.read_text().splitlines())
+        with config.open("a") as stream:
+            stream.write(
+                f"STORAGE_DATABASE=email_assistant\nSTORAGE_ADMIN_USER=email_assistant\n"
+                f"STORAGE_ADMIN_PASSWORD={values['POSTGRES_PASSWORD']}\n"
+                f"STORAGE_RUNTIME_USER=storage_runtime\n"
+                f"STORAGE_RUNTIME_PASSWORD={secrets.token_hex(24)}\n"
+                f"STORAGE_ARTIFACT_ROOT={artifact_root}\n"
+            )
         command = [
             "docker",
             "compose",
@@ -66,20 +80,27 @@ def main() -> int:
         env.update(APP_ENV_FILE=str(config), STORE_TEST_PROJECT=project)
 
         def compose(*args: str) -> str:
-            result = subprocess.run(command + list(args), env=env, capture_output=True, text=True)
+            result = subprocess.run(
+                command + list(args), env=env, capture_output=True, text=True
+            )
             if result.returncode:
-                raise RuntimeError(f"Compose {args[0]} failed; inspect service status privately")
+                raise RuntimeError(
+                    f"Compose {args[0]} failed; inspect service status privately"
+                )
             return result.stdout
 
         try:
             compose("config", "--quiet")
             compose("up", "-d", "--wait", "--wait-timeout", "180")
             containers = [
-                json.loads(line) for line in compose("ps", "--format", "json").splitlines()
+                json.loads(line)
+                for line in compose("ps", "--format", "json").splitlines()
             ]
             assert len(containers) == 3, "Expected three running containers"
             ids = [item["ID"] for item in containers]
-            details = json.loads(subprocess.check_output(["docker", "inspect", *ids], text=True))
+            details = json.loads(
+                subprocess.check_output(["docker", "inspect", *ids], text=True)
+            )
             volumes = []
             for item in details:
                 for bindings in item["HostConfig"]["PortBindings"].values():
@@ -144,6 +165,68 @@ def main() -> int:
                     raise RuntimeError("Disposable store backup failed before mutation")
                 assert (Path(directory) / f"store-{number}.tgz").stat().st_size > 0
             compose("up", "-d", "--wait", "--wait-timeout", "180")
+            # Match actual host connection to the owned PostgreSQL container before any writes.
+            cluster_id = compose(
+                "exec",
+                "-T",
+                "postgres",
+                "psql",
+                "-U",
+                "email_assistant",
+                "-d",
+                "email_assistant",
+                "-Atc",
+                "SELECT system_identifier FROM pg_control_system()",
+            ).strip()
+            env.update(STORE_TEST_CLUSTER=cluster_id, STORE_TEST_DIRECTORY=directory)
+            verify = subprocess.run(
+                [
+                    "uv",
+                    "run",
+                    "--locked",
+                    "--project",
+                    str(ROOT / "apps/backend"),
+                    "python",
+                    "-c",
+                    "from email_assistant.config import load_database_settings; "
+                    "from email_assistant.persistence.database import engine_for; "
+                    "from sqlalchemy import text; import os; "
+                    "s=load_database_settings(); e=engine_for(s,admin=True); "
+                    "c=e.connect(); "
+                    "assert str(c.execute(text('SELECT system_identifier "
+                    "FROM pg_control_system()'))"
+                    ".scalar_one())==os.environ['STORE_TEST_CLUSTER']; "
+                    "assert s.database=='email_assistant' and s.admin_user=='email_assistant'; "
+                    "c.close(); e.dispose()",
+                ],
+                env=env,
+                capture_output=True,
+            )
+            if verify.returncode:
+                raise RuntimeError("Disposable database identity verification failed")
+            migration = subprocess.run(
+                [
+                    "uv",
+                    "run",
+                    "--locked",
+                    "--project",
+                    str(ROOT / "apps/backend"),
+                    "python",
+                    str(ROOT / "scripts/storage-snapshot.py"),
+                    "migrate",
+                    "--config",
+                    str(config),
+                    "--staging",
+                    str(Path(directory) / "before-migration"),
+                    "--provision-runtime",
+                ],
+                env=env,
+                capture_output=True,
+                text=True,
+            )
+            if migration.returncode:
+                print(migration.stdout)
+                raise RuntimeError("Backed-up disposable migration/bootstrap failed")
             print(
                 "Three stores ready; loopback/private bridge/volumes verified; backup complete.",
                 flush=True,
@@ -159,6 +242,7 @@ def main() -> int:
                     "-m",
                     "integration",
                     "--tb=short",
+                    *sys.argv[1:],
                 ],
                 cwd=ROOT / "apps/backend",
                 env=env,
@@ -166,7 +250,9 @@ def main() -> int:
         except (RuntimeError, AssertionError, subprocess.SubprocessError) as exc:
             print(
                 "Store check failed:",
-                str(exc) if isinstance(exc, (AssertionError, RuntimeError)) else type(exc).__name__,
+                str(exc)
+                if isinstance(exc, (AssertionError, RuntimeError))
+                else type(exc).__name__,
             )
             status = subprocess.run(
                 command + ["ps", "--format", "{{.Service}} {{.State}} {{.Health}}"],
@@ -179,12 +265,17 @@ def main() -> int:
         finally:
             # This random project and its volumes were created by this invocation only.
             cleanup = subprocess.run(
-                command + ["down", "--volumes", "--remove-orphans"], env=env, capture_output=True
+                command + ["down", "--volumes", "--remove-orphans"],
+                env=env,
+                capture_output=True,
             )
             if cleanup.returncode:
-                raise RuntimeError(f"Cleanup failed for owned project {project}; stop it manually")
+                raise RuntimeError(
+                    f"Cleanup failed for owned project {project}; stop it manually"
+                )
             print(
-                f"Removed owned disposable project {project} and its backed-up volumes.", flush=True
+                f"Removed owned disposable project {project} and its backed-up volumes.",
+                flush=True,
             )
 
 

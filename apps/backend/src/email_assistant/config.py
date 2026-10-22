@@ -3,10 +3,13 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from pydantic import Field, SecretStr, ValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+if TYPE_CHECKING:
+    from sqlalchemy import URL
 
 STORE_CONFIG_ERROR = (
     "POSTGRES_PASSWORD, NEO4J_PASSWORD, QDRANT_API_KEY: "
@@ -61,13 +64,16 @@ def validate_store_compose(command: list[str]) -> None:
     try:
         result = subprocess.run(
             [*command, "config", "--format", "json"],
-            check=True, capture_output=True, text=True, timeout=30,
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
         services = json.loads(result.stdout)["services"]
         StoreSettings(
             _env_file=None,
             postgres_password=services["postgres"]["environment"]["POSTGRES_PASSWORD"],
-            neo4j_password=services["neo4j"]["environment"]["NEO4J_AUTH"][len("neo4j/"):],
+            neo4j_password=services["neo4j"]["environment"]["NEO4J_AUTH"][len("neo4j/") :],
             qdrant_api_key=services["qdrant"]["environment"]["QDRANT__SERVICE__API_KEY"],
         )
     except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError):
@@ -79,3 +85,49 @@ if __name__ == "__main__":
         validate_store_compose(sys.argv[1:])
     except ValueError as exc:
         raise SystemExit(str(exc)) from None
+
+
+class DatabaseSettings(BaseSettings):
+    model_config = SettingsConfigDict(extra="ignore", env_prefix="STORAGE_")
+    host: Literal["127.0.0.1"] = "127.0.0.1"
+    port: int = Field(default=5432, ge=1, le=65535)
+    database: str = Field(min_length=1, pattern=r"^[a-z][a-z0-9_]{0,62}$")
+    runtime_user: str = Field(min_length=1, pattern=r"^[a-z][a-z0-9_]{0,62}$")
+    runtime_password: SecretStr = Field(min_length=16)
+    admin_user: str | None = Field(default=None, pattern=r"^[a-z][a-z0-9_]{0,62}$")
+    admin_password: SecretStr | None = Field(default=None, min_length=16)
+    artifact_root: Path
+
+    def url(self, *, admin: bool = False) -> "URL":
+        from sqlalchemy import URL
+
+        password = self.admin_password if admin else self.runtime_password
+        if admin and (self.admin_user is None or password is None):
+            raise ValueError("STORAGE_ADMIN_: private maintenance credentials required")
+        assert password is not None
+        return URL.create(
+            "postgresql+psycopg",
+            host=self.host,
+            port=self.port,
+            database=self.database,
+            username=self.admin_user if admin else self.runtime_user,
+            password=password.get_secret_value(),
+        )
+
+
+def load_database_settings() -> DatabaseSettings:
+    source = private_source()
+    try:
+        settings = DatabaseSettings(_env_file=source)
+        if (
+            settings.runtime_user == settings.admin_user
+            or (settings.admin_user is None) != (settings.admin_password is None)
+            or not settings.artifact_root.is_absolute()
+        ):
+            raise ValueError
+        return settings
+    except (ValidationError, OSError, UnicodeError, ValueError):
+        raise ValueError(
+            "STORAGE_: set separate private DB credentials and absolute artifact root; "
+            "see configuration template"
+        ) from None

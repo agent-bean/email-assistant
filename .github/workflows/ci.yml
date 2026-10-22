@@ -32,4 +32,11 @@ jobs:
       - uses: astral-sh/setup-uv@v10.3.0
         with:
           version: "0.13.3"
+      - name: Install matching PostgreSQL snapshot clients
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install --yes postgresql-client-17
+          echo /usr/lib/postgresql/17/bin >> "$GITHUB_PATH"
       - run: make install-backend test-integration

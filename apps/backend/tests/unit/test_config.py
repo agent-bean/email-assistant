@@ -63,3 +63,34 @@ def test_private_file_permissions(tmp_path, monkeypatch):
     monkeypatch.setenv("APP_ENV_FILE", str(config))
     with pytest.raises(ValueError, match="chmod 600"):
         load_settings()
+
+
+def test_database_configuration_is_independent_and_sanitized(monkeypatch, tmp_path):
+    from email_assistant.config import load_database_settings
+
+    for key in list(__import__("os").environ):
+        if key.startswith("STORAGE_") or key == "APP_ENV_FILE":
+            monkeypatch.delenv(key)
+    with pytest.raises(ValueError, match="STORAGE_"):
+        load_database_settings()
+    for key, value in dict(
+        DATABASE="example",
+        RUNTIME_USER="runtime",
+        ADMIN_USER="admin",
+        RUNTIME_PASSWORD="r" * 24,
+        ADMIN_PASSWORD="a" * 24,
+        ARTIFACT_ROOT=str(tmp_path),
+    ).items():
+        monkeypatch.setenv("STORAGE_" + key, value)
+    assert load_database_settings().url().username == "runtime"
+    assert load_database_settings().url(admin=True).username == "admin"
+    monkeypatch.setenv("STORAGE_RUNTIME_USER", "admin")
+    with pytest.raises(ValueError) as error:
+        load_database_settings()
+    assert "a" * 24 not in str(error.value)
+    monkeypatch.setenv("STORAGE_RUNTIME_USER", "runtime")
+    monkeypatch.delenv("STORAGE_ADMIN_USER")
+    monkeypatch.delenv("STORAGE_ADMIN_PASSWORD")
+    assert load_database_settings().url().username == "runtime"
+    with pytest.raises(ValueError, match="maintenance credentials"):
+        load_database_settings().url(admin=True)

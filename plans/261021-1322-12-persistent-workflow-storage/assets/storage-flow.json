@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Canonical writes and recovery",
+    "visual_preset": "editorial",
+    "theme": "light"
+  },
+  "components": [
+    {
+      "id": "write",
+      "label": "Validated storage write",
+      "role": "backend",
+      "layer": 0,
+      "description": "Runtime role; revision and maintenance guards"
+    },
+    {
+      "id": "db",
+      "label": "PostgreSQL transaction",
+      "role": "database",
+      "layer": 1,
+      "description": "Canonical record, revision, audit and outbox commit together"
+    },
+    {
+      "id": "files",
+      "label": "Private artifact files",
+      "role": "storage",
+      "layer": 1,
+      "description": "Opaque key, checksum and pending/ready metadata"
+    },
+    {
+      "id": "outbox",
+      "label": "Per-target checkpoints",
+      "role": "queue",
+      "layer": 2,
+      "description": "Storage only; projectors belong to downstream work"
+    },
+    {
+      "id": "snapshot",
+      "label": "Matched local snapshot",
+      "role": "storage",
+      "layer": 2,
+      "description": "Writer exclusion, pg_dump and matching file bytes"
+    },
+    {
+      "id": "restore",
+      "label": "Isolated restore target",
+      "role": "database",
+      "layer": 3,
+      "description": "Verify revision, states, references and hashes; no sending"
+    }
+  ],
+  "connections": [
+    {
+      "from": "write",
+      "to": "db",
+      "label": "Guarded mutation"
+    },
+    {
+      "from": "write",
+      "to": "files",
+      "label": "Durable bytes before ready"
+    },
+    {
+      "from": "db",
+      "to": "outbox",
+      "label": "Atomic event intent"
+    },
+    {
+      "from": "db",
+      "to": "snapshot",
+      "label": "Quiesced logical dump"
+    },
+    {
+      "from": "files",
+      "to": "snapshot",
+      "label": "Matching hashes"
+    },
+    {
+      "from": "snapshot",
+      "to": "restore",
+      "label": "Verify before success"
+    }
+  ]
+}
